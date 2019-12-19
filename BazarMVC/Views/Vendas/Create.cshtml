@@ -20,28 +20,109 @@
                     <form role="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-xs-12">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Nome do Produto</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome do Produto...">
+                                        <label for="exampleInputPassword1">Comprador</label>
+                                        <input list="compradores" name="comprador" class="form-control" placeholder="Comprador...">
+                                        <datalist id="compradores">
+                                            <option value="Internet Explorer">
+                                            <option value="Firefox">
+                                            <option value="Chrome">
+                                            <option value="Opera">
+                                            <option value="Safari">
+                                        </datalist>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Quantidade</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Quantidade...">
+                                        <label for="exampleInputPassword1">Lista dos Produtos</label>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm mb-2">
+                                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-navbar" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Produto</th>
+                                                    <th scope="col">Preço</th>
+                                                    <th scope="col">Quantidade</th>
+                                                    <th scope="col">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>mdo</td>
+                                                    <td>mdo</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jacob</td>
+                                                    <td>Thornton</td>
+                                                    <td>fat</td>
+                                                    <td>mdo</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Larry</td>
+                                                    <td>the Bird</td>
+                                                    <td>twitter</td>
+                                                    <td>mdo</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-xs-12 col-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Preço</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Preço...">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Vendedor</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Vendedor...">
+                                        <label for="">Lista dos Produtos Escolhidos</label>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm mb-2">
+                                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-navbar" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">First</th>
+                                                    <th scope="col">Last</th>
+                                                    <th scope="col">Handle</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>mdo</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>Jacob</td>
+                                                    <td>Thornton</td>
+                                                    <td>fat</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>Larry</td>
+                                                    <td>the Bird</td>
+                                                    <td>twitter</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
