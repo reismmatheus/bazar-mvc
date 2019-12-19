@@ -14,22 +14,17 @@ namespace BazarMVC.Controllers
             return View();
         }
 
-        public ActionResult List()
-        {
-            return View();
-        }
-
         //// GET: Vendas/Details/5
         //public ActionResult Details(int id)
         //{
         //    return View();
         //}
 
-        //// GET: Vendas/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Vendas/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
 
         //// POST: Vendas/Create
         //[HttpPost]

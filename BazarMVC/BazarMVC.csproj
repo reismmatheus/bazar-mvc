@@ -196,9 +196,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompradorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProdutosController.cs" />
+    <Compile Include="Controllers\ProdutosVendidosController.cs" />
     <Compile Include="Controllers\VendasController.cs" />
+    <Compile Include="Controllers\VendedorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -263,8 +267,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Vendas\Create.cshtml" />
     <Content Include="Views\Vendas\Index.cshtml" />
-    <Content Include="Views\Vendas\List.cshtml" />
+    <Content Include="Views\Vendedor\Index.cshtml" />
+    <Content Include="Views\Vendedor\Create.cshtml" />
+    <Content Include="Views\Comprador\Index.cshtml" />
+    <Content Include="Views\Comprador\Create.cshtml" />
+    <Content Include="Views\Produtos\Index.cshtml" />
+    <Content Include="Views\Produtos\Create.cshtml" />
+    <Content Include="Views\ProdutosVendidos\Index.cshtml" />
+    <Content Include="Views\ProdutosVendidos\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>    <!-- Tell the browser to be responsive to screen width -->
+    <title>Bazar | @ViewBag.Title</title>    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/Content/plugins/fontawesome-free/css/all.min.css">
@@ -37,25 +37,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
             </ul>
-
-            <!-- SEARCH FORM -->
-            <form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
@@ -150,7 +132,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="@Url.Action("Index", "Home")" class="brand-link">
                 <img src="~/Content/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Bazar</span>
@@ -191,13 +173,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">                         
-                                    <a href="@Url.Action("List", "Vendas")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Vendas")" class="nav-link">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Listar</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Add", "Vendas")" class="nav-link">
+                                    <a href="@Url.Action("Create", "Vendas")" class="nav-link">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Adicionar</p>
                                     </a>
@@ -214,13 +196,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("List", "Produtos")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Produtos")" class="nav-link">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Listar</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Add", "Produtos")" class="nav-link">
+                                    <a href="@Url.Action("Create", "Produtos")" class="nav-link">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Adicionar</p>
                                     </a>
@@ -237,13 +219,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("List", "ProdutosVendidos")" class="nav-link">
+                                    <a href="@Url.Action("Index", "ProdutosVendidos")" class="nav-link">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Listar</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Add", "ProdutosVendidos")" class="nav-link">
+                                    <a href="@Url.Action("Create", "ProdutosVendidos")" class="nav-link">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Adicionar</p>
                                     </a>
@@ -260,13 +242,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("List", "Compradores")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Comprador")" class="nav-link">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Listar</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Add", "Compradores")" class="nav-link">
+                                    <a href="@Url.Action("Create", "Comprador")" class="nav-link">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Adicionar</p>
                                     </a>
@@ -283,13 +265,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("List", "Vendedores")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Vendedor")" class="nav-link">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Listar</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("List", "Vendedores")" class="nav-link">
+                                    <a href="@Url.Action("Create", "Vendedor")" class="nav-link">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>Adicionar</p>
                                     </a>
