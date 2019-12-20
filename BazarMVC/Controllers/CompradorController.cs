@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Bazar.Class;
+using Bazar.Interface;
+using BazarMVC.Repositories.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static BazarMVC.Models.CompradorViewModels;
 
 namespace BazarMVC.Controllers
 {
@@ -11,7 +15,21 @@ namespace BazarMVC.Controllers
         // GET: Comprador
         public ActionResult Index()
         {
-            return View();
+            List<CompradorModel> listaCompradores = new List<CompradorModel>();
+            InterfaceBazar bazar = new InterfaceBazar();
+            var getCompradores = bazar.GetCompradores();
+            if (!getCompradores.ProccessOk)
+            {
+                return View(listaCompradores);
+            }
+            foreach (var item in getCompradores.ListaComprador)
+            {
+                CompradorModel comprador = new CompradorModel();
+                comprador.Id = item.Id;
+                comprador.Nome = item.Nome;
+                listaCompradores.Add(comprador);
+            }
+            return View(listaCompradores);
         }
 
         // GET: Comprador/Details/5
@@ -23,22 +41,30 @@ namespace BazarMVC.Controllers
         // GET: Comprador/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new CompradorCreateViewModel());
         }
 
         // POST: Comprador/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CompradorCreateViewModel model)
         {
+            InterfaceBazar bazar = new InterfaceBazar();
             try
             {
-                // TODO: Add insert logic here
+                Comprador comprador = new Comprador();
+                comprador.Nome = model.Nome;
+                var adicionarComprador = bazar.AdicionarComprador(comprador);
+                if (!adicionarComprador.ProccessOk)
+                {
+                    return View(model);
+                }
 
+                TempData["MensagemSucesso"] = "Comprador cadastrado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

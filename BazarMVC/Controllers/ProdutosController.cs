@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Bazar.Class;
+using Bazar.Interface;
+using BazarMVC.Repositories.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static BazarMVC.Models.ProdutosViewModels;
 
 namespace BazarMVC.Controllers
 {
@@ -11,7 +15,29 @@ namespace BazarMVC.Controllers
         // GET: Produtos
         public ActionResult Index()
         {
-            return View();
+            List<ProdutosModel> listaProdutos = new List<ProdutosModel>();
+            InterfaceBazar bazar = new InterfaceBazar();
+            var getProdutos = bazar.GetProdutos();
+            if (!getProdutos.ProccessOk)
+            {
+                return View(listaProdutos);
+            }
+            foreach (var item in getProdutos.ListaProduto)
+            {
+                ProdutosModel produto = new ProdutosModel();
+                produto.Id = item.Id;
+                produto.Nome = item.Nome;
+                produto.Preco = item.Preco;
+                produto.Quantidade = item.Quantidade;
+                var vendedor = bazar.GetVendedor(item.IdVendedor.ToString());
+                if (!vendedor.ProccessOk)
+                {
+                    return View(listaProdutos);
+                }
+                produto.Vendedor = vendedor.Vendedor.Nome;
+                listaProdutos.Add(produto);
+            }
+            return View(listaProdutos);
         }
 
         // GET: Produtos/Details/5
@@ -23,22 +49,51 @@ namespace BazarMVC.Controllers
         // GET: Produtos/Create
         public ActionResult Create()
         {
-            return View();
+            InterfaceBazar bazar = new InterfaceBazar();
+            ProdutosCreateViewModel model = new ProdutosCreateViewModel();
+            var vendedores = bazar.GetVendedores();
+            if (!vendedores.ProccessOk)
+            {
+                return View(model);
+            }
+            foreach (var item in vendedores.ListaVendedor)
+            {
+                string vendedor = item.Nome;
+                model.ListaVendedores.Add(vendedor);
+            }
+            return View(model);
         }
 
         // POST: Produtos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(ProdutosCreateViewModel model)
         {
+            InterfaceBazar bazar = new InterfaceBazar();
             try
             {
-                // TODO: Add insert logic here
+                Produto produto = new Produto();
+                produto.Nome = model.Nome;
+                produto.Preco = model.Preco;
+                produto.Quantidade = model.Quantidade;
+                var vendedor = bazar.GetVendedor(model.Vendedor);
+                if (!vendedor.ProccessOk)
+                {
+                    return View(model);
+                }
+                produto.IdVendedor = vendedor.Vendedor.Id;
+                var venda = bazar.AdicionarProduto(produto);
+                if (!venda.ProccessOk)
+                {
+                    return View(model);
+                }
 
+                return View(model);
+                TempData["MensagemSucesso"] = "Comprador cadastrado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

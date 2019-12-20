@@ -1,8 +1,13 @@
-﻿using System;
+﻿using Bazar.Class;
+using Bazar.Interface;
+using BazarMVC.Models;
+using BazarMVC.Repositories.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static BazarMVC.Models.VendedorViewModels;
 
 namespace BazarMVC.Controllers
 {
@@ -11,7 +16,21 @@ namespace BazarMVC.Controllers
         // GET: Vendedor
         public ActionResult Index()
         {
-            return View();
+            List<VendedorModel> listaVendedores = new List<VendedorModel>();
+            InterfaceBazar bazar = new InterfaceBazar();
+            var getVendedores = bazar.GetVendedores();
+            if (!getVendedores.ProccessOk)
+            {
+                return View(listaVendedores);
+            }
+            foreach (var item in getVendedores.ListaVendedor)
+            {
+                VendedorModel vendedor = new VendedorModel();
+                vendedor.Id = item.Id;
+                vendedor.Nome = item.Nome;
+                listaVendedores.Add(vendedor);
+            }
+            return View(listaVendedores);
         }
 
         // GET: Vendedor/Details/5
@@ -23,22 +42,30 @@ namespace BazarMVC.Controllers
         // GET: Vendedor/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new VendedorCreateViewModel());
         }
 
         // POST: Vendedor/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(VendedorCreateViewModel model)
         {
+            InterfaceBazar bazar = new InterfaceBazar();
             try
             {
-                // TODO: Add insert logic here
+                Vendedor vendedor = new Vendedor();
+                vendedor.Nome = model.Nome;
+                var adicionarVendedor = bazar.AdicionarVendedor(vendedor);
+                if (!adicionarVendedor.ProccessOk)
+                {
+                    return View(model);
+                }
 
+                TempData["MensagemSucesso"] = "Vendedor cadastrado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

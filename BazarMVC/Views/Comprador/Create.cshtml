@@ -20,25 +20,31 @@
             <div class="col-md-12">
                 <!-- general form elements -->
                 <div class="card">
-                    <!-- form start -->
-                    <form role="form">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        if (ViewBag.MensagemErro != null)
+                        {
+                            <p class="text-danger margin-y">@ViewBag.MensagemErro</p>
+                        }
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Nome</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome...">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome..." name="Nome" value="@Model.Nome">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
-                        </div>
-                    </form>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            </div>
+                    }
                 </div>
             </div>
             <!--/.col -->

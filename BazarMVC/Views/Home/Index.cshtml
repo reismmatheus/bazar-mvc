@@ -1,4 +1,6 @@
-﻿@{
+﻿@model BazarMVC.Repositories.Model.HomeModel
+
+@{
     ViewBag.Title = "Home";
 }
 
@@ -8,6 +10,10 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Dashboard</h1>
+                @if (!string.IsNullOrEmpty(ViewBag.MensagemErro))
+                {
+                    <span>Erro ao capturar informações</span>
+                }
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -22,7 +28,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>@Model.Vendas</h3>
 
                         <p>Vendas</p>
                     </div>
@@ -37,7 +43,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>@Model.Produtos</h3>
 
                         <p>Produtos</p>
                     </div>
@@ -52,7 +58,7 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>@Model.ProdutosVendidos</h3>
 
                         <p>Produtos Vendidos</p>
                     </div>
@@ -66,7 +72,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>@Model.Compradores</h3>
 
                         <p>Compradores</p>
                     </div>
@@ -81,7 +87,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>@Model.Vendedores</h3>
 
                         <p>Vendedores</p>
                     </div>
@@ -96,12 +102,12 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>@Model.ProdutosPagos<sup style="font-size: 20px">%</sup></h3>
 
                         <p>Produtos Pagos</p>
                     </div>
                     <div class="icon">
-                        <i class="fas fa-cart-arrow-down"></i>
+                        <i class="fas fa-balance-scale"></i>
                     </div>
                     <a href="@Url.Action("Index", "ProdutoVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
                 </div>

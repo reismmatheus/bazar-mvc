@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<BazarMVC.Repositories.Model.VendasModel>
+
+@{
     ViewBag.Title = "Vendas";
 }
 
@@ -8,6 +10,10 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Vendas</h1>
+                @if (TempData["MensagemSucesso"] != null)
+                {
+                    <span>@TempData["MensagemSucesso"]</span>
+                }
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -38,30 +44,19 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Comprador</th>
+                            <th scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>twitter</td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@item.Id</th>
+                                <td>@item.Comprador</td>
+                                <td>R$ @item.ValorTotal</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bazar.Interface;
+using BazarMVC.Repositories.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,27 @@ namespace BazarMVC.Controllers
         // GET: Vendas
         public ActionResult Index()
         {
-            return View();
+            List<VendasModel> listaVendas = new List<VendasModel>();
+            InterfaceBazar bazar = new InterfaceBazar();
+            var getVendas = bazar.GetVendas();
+            if (!getVendas.ProccessOk)
+            {
+                return View(listaVendas);
+            }
+            foreach (var item in getVendas.ListaVenda)
+            {
+                VendasModel vendas = new VendasModel();
+                vendas.Id = item.Id;
+                vendas.ValorTotal = item.ValorTotal;
+                var nomeComprador = bazar.GetComprador(item.IdComprador.ToString());
+                if (!nomeComprador.ProccessOk)
+                {
+                    return View(listaVendas);
+                }
+                vendas.Comprador = nomeComprador.Comprador.Nome;
+                listaVendas.Add(vendas);
+            }
+            return View(listaVendas);
         }
 
         //// GET: Vendas/Details/5

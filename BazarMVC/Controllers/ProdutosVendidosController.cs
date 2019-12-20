@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bazar.Interface;
+using BazarMVC.Repositories.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,40 @@ namespace BazarMVC.Controllers
         // GET: ProdutosVendidos
         public ActionResult Index()
         {
-            return View();
+            List<ProdutosVendidosModel> listaProdutosVendidos = new List<ProdutosVendidosModel>();
+            InterfaceBazar bazar = new InterfaceBazar();
+            var getProdutosVendidos = bazar.GetProdutosVendidos();
+            if (!getProdutosVendidos.ProccessOk)
+            {
+                return View(listaProdutosVendidos);
+            }
+            foreach (var item in getProdutosVendidos.ListaProdutoVendido)
+            {
+                ProdutosVendidosModel produto = new ProdutosVendidosModel();
+                produto.Id = item.Id;
+                produto.PrecoPago = item.PrecoPago;
+                produto.Quantidade = item.Quantidade;
+                produto.Status = item.Status;
+                var nomeProduto = bazar.GetProduto(item.IdProduto);
+                if (!nomeProduto.ProccessOk)
+                {
+                    return View(listaProdutosVendidos);
+                }
+                produto.Produto = nomeProduto.Produto.Nome;
+                var venda = bazar.GetVenda(item.IdVenda.ToString());
+                if (!venda.ProccessOk)
+                {
+                    return View(listaProdutosVendidos);
+                }
+                var comprador = bazar.GetComprador(venda.Venda.IdComprador.ToString());
+                if (!comprador.ProccessOk)
+                {
+                    return View(listaProdutosVendidos);
+                }
+                produto.Comprador = comprador.Comprador.Nome;
+                listaProdutosVendidos.Add(produto);
+            }
+            return View(listaProdutosVendidos);
         }
 
         // GET: ProdutosVendidos/Details/5

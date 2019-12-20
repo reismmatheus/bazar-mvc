@@ -244,3 +244,5 @@ C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.Owin.Security.MicrosoftAccount.xm
 C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.csprojResolveAssemblyReference.cache
 C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.pdb
+C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.dll
+C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.pdb
