@@ -1,4 +1,14 @@
-﻿<!-- Content Header (Page header) -->
+﻿<style>
+    .pb-20{
+        padding-bottom: 20px;
+    }
+</style>
+
+@{
+    ViewBag.Title = "Cadastro de Produtos";
+}
+
+<!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -20,28 +30,37 @@
                     <form role="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Nome do Produto</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome do Produto...">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome...">
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-md-6 form-group">
+                                    <label for="exampleInputPassword1">Vendedor</label>
+                                    <input list="vendedores" name="Vendedor" class="form-control" placeholder="Vendedor...">
+                                    <datalist id="vendedores">
+                                        <option value="Internet Explorer">
+                                        <option value="Firefox">
+                                        <option value="Chrome">
+                                        <option value="Opera">
+                                        <option value="Safari">
+                                    </datalist>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Preço</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Preço...">
+                                    </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Quantidade</label>
                                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Quantidade...">
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Preço</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Preço...">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Vendedor</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Vendedor...">
+                                        <label for="exampleFormControlTextarea1">Descrição</label>
+                                        <textarea class="form-control pb-20" id="exampleFormControlTextarea1" rows="4"></textarea>
                                     </div>
                                 </div>
                             </div>
