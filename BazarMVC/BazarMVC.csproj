@@ -211,6 +211,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProdutosViewModels.cs" />
+    <Compile Include="Models\VendasViewModels.cs" />
     <Compile Include="Models\VendedorViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Model\CompradorModel.cs" />

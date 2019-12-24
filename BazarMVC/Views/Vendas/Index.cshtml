@@ -46,6 +46,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Comprador</th>
                             <th scope="col">Total</th>
+                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,7 +55,8 @@
                             <tr>
                                 <th scope="row">@item.Id</th>
                                 <td>@item.Comprador</td>
-                                <td>R$ @item.ValorTotal</td>
+                                <td>@item.ValorTotal.ToString("c2")</td>
+                                <td></td>
                             </tr>
                         }
                     </tbody>

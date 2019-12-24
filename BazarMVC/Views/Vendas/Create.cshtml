@@ -2,6 +2,8 @@
     ViewBag.Title = "Cadastro de Venda";
 }
 
+@model BazarMVC.Models.VendasViewModels.VendasCreateViewModel
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -20,125 +22,140 @@
             <div class="col-md-12">
                 <!-- general form elements -->
                 <div class="card">
-                    <!-- form start -->
-                    <form role="form">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        if (ViewBag.MensagemErro != null)
+                        {
+                            <p class="text-danger margin-y">@ViewBag.MensagemErro</p>
+                        }
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-xs-12">
+                                <div class="col-md-6 form-group">
+                                    <label for="exampleInputPassword1">Comprador</label>
+                                    <input list="compradores" class="form-control" placeholder="Comprador..." value="@Model.Comprador"
+                                           oninput="console.log(this.value);">
+                                    <datalist id="compradores">
+                                        @foreach (var item in Model.ListaCompradores)
+                                        {
+                                            <option data-value="@item.Id">@item.Nome</option>
+                                        }
+                                    </datalist>
+                                </div>
+                                <input type="text" name="Comprador" id="NameComprador" style="display: none;">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Comprador</label>
-                                        <input list="compradores" name="comprador" class="form-control" placeholder="Comprador...">
-                                        <datalist id="compradores">
-                                            <option value="Internet Explorer">
-                                            <option value="Firefox">
-                                            <option value="Chrome">
-                                            <option value="Opera">
-                                            <option value="Safari">
-                                        </datalist>
+                                        <label for="exampleInputPassword1">Preço Total</label>
+                                        <input type="text" class="form-control" id="" name="PrecoTotal" value="" readonly>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-6">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Lista dos Produtos</label>
-                                        <form class="form-inline">
-                                            <div class="input-group input-group-sm mb-2">
-                                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-navbar" type="submit">
-                                                        <i class="fas fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Produto</th>
                                                     <th scope="col">Preço</th>
                                                     <th scope="col">Quantidade</th>
-                                                    <th scope="col">Ações</th>
+                                                    <th scope="col">Vendedor</th>
+                                                    <th scope="col">Ação</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>mdo</td>
-                                                    <td>mdo</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>fat</td>
-                                                    <td>mdo</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>twitter</td>
-                                                    <td>mdo</td>
-                                                </tr>
+                                                @foreach (var item in Model.ListaProdutos)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Nome</td>
+                                                        <td>@item.Preco.ToString("c2")</td>
+                                                        <td>@item.Quantidade</td>
+                                                        <td>@item.Vendedor</td>
+                                                        <td>
+                                                            <button type="submit" class="btn btn-info" name="ProdutoSelecionado" value="@item.Id">
+                                                                <span class="fa fa-plus"></span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-6">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="">Lista dos Produtos Escolhidos</label>
-                                        <form class="form-inline">
-                                            <div class="input-group input-group-sm mb-2">
-                                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-navbar" type="submit">
-                                                        <i class="fas fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">First</th>
-                                                    <th scope="col">Last</th>
-                                                    <th scope="col">Handle</th>
+                                                    <th scope="col">Produto</th>
+                                                    <th scope="col">Preço</th>
+                                                    <th scope="col">Quantidade</th>
+                                                    <th scope="col">Vendedor</th>
+                                                    <th scope="col">Ação</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>mdo</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>fat</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>twitter</td>
-                                                </tr>
+                                                @foreach (var item in Model.ListaProdutosEscolhidos)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Nome</td>
+                                                        <td>@item.Preco.ToString("c2")</td>
+                                                        <td>@item.Quantidade</td>
+                                                        <td>@item.Vendedor</td>
+                                                        <td>
+                                                            <button type="submit" class="btn btn-info" name="ProdutoSelecionado" value="@item.Id">
+                                                                <span class="fa fa-minus"></span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-body -->
+
+                        using (Html.BeginForm("Create", "Vendas", FormMethod.Get))
+                        {
+                            <div class="form-inline">
+                                <div class="input-group input-group hidden-xs">
+                                    @Html.TextBox("Search", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control pull-right", placeholder = "Filtrar Nome ou Cpf" })
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+
+                                <a href="@Url.Action("Create")" class="btn btn-warning">
+                                    <span class="fa fa-plus"></span> Novo
+                                </a>
+
+                            </div>
+                        }
+
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary" id="Cadastrar">Cadastrar</button>
                         </div>
-                    </form>
+                    }
                 </div>
             </div>
             <!--/.col -->
             <!-- /.row -->
         </div><!-- /.container-fluid -->
 </section>
+
+<script>
+    var des = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    Object.defineProperty(HTMLInputElement.prototype, 'value', {
+        get: function () {
+            if (this.type === 'text' && this.list) {
+                var value = des.get.call(this);
+                var opt = [].find.call(this.list.options, function (option) {
+                    return option.value === value;
+                });
+                document.getElementById("NameComprador").value = opt.dataset.value;
+                return opt ? opt.dataset.value : value;
+            }
+        }
+    });
+</script>

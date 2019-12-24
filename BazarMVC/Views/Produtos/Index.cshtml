@@ -42,8 +42,9 @@
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Preço</th>
-                            <th scope="col">Quantidade</th>
+                            <th scope="col">Quantidade Disponível</th>
                             <th scope="col">Vendedor</th>
+                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,9 +53,10 @@
                             <tr>
                                 <th scope="row">@item.Id</th>
                                 <td>@item.Nome</td>
-                                <td>R$ @item.Preco</td>
+                                <td>@item.Preco.ToString("c2")</td>
                                 <td>@item.Quantidade</td>
                                 <td>@item.Vendedor</td>
+                                <td></td>
                             </tr>
                         }
                     </tbody>

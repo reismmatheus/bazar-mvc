@@ -58,7 +58,9 @@ namespace BazarMVC.Controllers
             }
             foreach (var item in vendedores.ListaVendedor)
             {
-                string vendedor = item.Nome;
+                VendedorModel vendedor = new VendedorModel();
+                vendedor.Id = item.Id;
+                vendedor.Nome = item.Nome;
                 model.ListaVendedores.Add(vendedor);
             }
             return View(model);
@@ -73,21 +75,15 @@ namespace BazarMVC.Controllers
             {
                 Produto produto = new Produto();
                 produto.Nome = model.Nome;
-                produto.Preco = model.Preco;
+                var precoTotal = model.Preco.Split('.');
+                produto.Preco = float.Parse(precoTotal[0]) + (float.Parse(precoTotal[1]) / 100);
                 produto.Quantidade = model.Quantidade;
-                var vendedor = bazar.GetVendedor(model.Vendedor);
-                if (!vendedor.ProccessOk)
-                {
-                    return View(model);
-                }
-                produto.IdVendedor = vendedor.Vendedor.Id;
+                produto.IdVendedor = int.Parse(model.Vendedor);
                 var venda = bazar.AdicionarProduto(produto);
                 if (!venda.ProccessOk)
                 {
                     return View(model);
                 }
-
-                return View(model);
                 TempData["MensagemSucesso"] = "Comprador cadastrado com sucesso!";
                 return RedirectToAction("Index");
             }
