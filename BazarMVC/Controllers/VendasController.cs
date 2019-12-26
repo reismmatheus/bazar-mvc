@@ -133,17 +133,19 @@ namespace BazarMVC.Controllers
             var produtosDisponiveis = model.ListaProdutos.Where(y => y.Id.ToString() != produtoEscolhido.First().Id.ToString());
             model.ListaProdutos = produtosDisponiveis.ToList();
 
-            return View(model);
-            try
-            {
-                // TODO: Add insert logic here
+            model.ValorTotal += produtoEscolhido.First().Preco;
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View(model);
-            }
+            return View(model);
+            //try
+            //{
+            //    // TODO: Add insert logic here
+
+            //    return RedirectToAction("Index");
+            //}
+            //catch
+            //{
+            //    return View(model);
+            //}
         }
 
         // GET: Vendas/Edit/5

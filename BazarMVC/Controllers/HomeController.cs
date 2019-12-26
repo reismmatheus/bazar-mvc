@@ -22,7 +22,8 @@ namespace BazarMVC.Controllers
             }
             model.Compradores = estatisticas.Compradores;
             model.Produtos = estatisticas.Produtos;
-            model.ProdutosPagos = (100 * estatisticas.ProdutosPagos) / estatisticas.ProdutosVendidos;
+            if(estatisticas.ProdutosPagos != 0 && estatisticas.ProdutosVendidos != 0)
+                model.ProdutosPagos = (100 * estatisticas.ProdutosPagos) / estatisticas.ProdutosVendidos;
             model.ProdutosVendidos = estatisticas.ProdutosVendidos;
             model.Vendas = estatisticas.Vendas;
             model.Vendedores = estatisticas.Vendedores;

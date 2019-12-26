@@ -162,6 +162,9 @@ C:\Users\matheus.silva\Desktop\BazarMVC\BazarMVC\bin\Microsoft.Owin.Security.Mic
 C:\Users\matheus.silva\Desktop\BazarMVC\BazarMVC\obj\Debug\BazarMVC.csprojResolveAssemblyReference.cache
 C:\Users\matheus.silva\Desktop\BazarMVC\BazarMVC\obj\Debug\BazarMVC.dll
 C:\Users\matheus.silva\Desktop\BazarMVC\BazarMVC\obj\Debug\BazarMVC.pdb
+C:\www\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.csprojAssemblyReference.cache
+C:\www\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.dll
+C:\www\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.pdb
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\ApplicationInsights.config
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\roslyn\csc.exe
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -179,6 +182,7 @@ C:\www\dotnet\Bazar-MVC\BazarMVC\bin\BazarMVC.dll.config
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\BazarMVC.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\BazarMVC.pdb
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Antlr3.Runtime.dll
+C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\EntityFramework.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\EntityFramework.SqlServer.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.AI.Agent.Intercept.dll
@@ -212,6 +216,8 @@ C:\www\dotnet\Bazar-MVC\BazarMVC\bin\System.Web.WebPages.Deployment.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\System.Web.WebPages.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\System.Web.WebPages.Razor.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\WebGrease.dll
+C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.pdb
+C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.dll.config
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.AI.DependencyCollector.xml
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.AI.Web.xml
@@ -241,8 +247,7 @@ C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.Owin.Security.OAuth.xml
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.Owin.Security.Google.xml
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.Owin.Security.Twitter.xml
 C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.csprojResolveAssemblyReference.cache
+C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.csprojAssemblyReference.cache
+C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.csproj.CopyComplete
 C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.dll
 C:\www\dotnet\Bazar-MVC\BazarMVC\obj\Debug\BazarMVC.pdb
-C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.dll
-C:\www\dotnet\Bazar-MVC\BazarMVC\bin\Bazar.pdb

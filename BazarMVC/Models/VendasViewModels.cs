@@ -10,7 +10,7 @@ namespace BazarMVC.Models
     {
         public class VendasCreateViewModel
         {
-            public string ValorTotal { get; set; }
+            public float ValorTotal { get; set; }
             public string Comprador { get; set; }
             public int ProdutoSelecionado { get; set; }
             public List<ProdutosModel> ListaProdutosEscolhidos { get; set; }
