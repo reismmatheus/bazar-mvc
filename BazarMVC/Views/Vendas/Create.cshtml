@@ -67,10 +67,10 @@
                                                 @foreach (var item in Model.ListaProdutos)
                                                 {
                                                     <tr>
-                                                        <td name="ListaProdutos">@item.Nome</td>
-                                                        <td name="ListaProdutos.Preco">@item.Preco.ToString("c2")</td>
-                                                        <td name="ListaProdutos.Quantidade">@item.Quantidade</td>
-                                                        <td name="ListaProdutos.Vendedor">@item.Vendedor</td>
+                                                        <td name="ListaProdutos[0]" value="@item.Nome">@item.Nome</td>
+                                                        <td name="ListaProdutos[0]">@item.Preco.ToString("c2")</td>
+                                                        <td name="ListaProdutos[0]">@item.Quantidade</td>
+                                                        <td name="ListaProdutos[0].Vendedor">@item.Vendedor</td>
                                                         <td>
                                                             <button type="submit" class="btn btn-info" name="ProdutoSelecionado" value="@item.Id">
                                                                 <span class="fa fa-plus"></span>
@@ -98,6 +98,7 @@
                                                 @foreach (var item in Model.ListaProdutosEscolhidos)
                                                 {
                                                     <tr>
+                                                        <td style="display: none;" name="ListaProdutosEscolhidos" value="@item.Id">@item.Id</td>
                                                         <td>@item.Nome</td>
                                                         <td>@item.Preco.ToString("c2")</td>
                                                         <td>@item.Quantidade</td>
