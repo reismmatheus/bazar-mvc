@@ -1,0 +1,15 @@
+C:\www\dotnet\Bazar\Bazar\bin\Debug\Bazar.pdb
+C:\www\dotnet\Bazar\Bazar\bin\Debug\Newtonsoft.Json.dll
+C:\www\dotnet\Bazar\Bazar\bin\Debug\Newtonsoft.Json.xml
+C:\www\dotnet\Bazar\Bazar\obj\Debug\Bazar.pdb
+C:\www\dotnet\Bazar\Bazar\bin\Debug\Bazar.dll.config
+C:\www\dotnet\Bazar\Bazar\bin\Debug\Bazar.dll
+C:\www\dotnet\Bazar\Bazar\obj\Debug\Bazar.dll
+C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Bazar.dll.config
+C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Bazar.dll
+C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Bazar.pdb
+C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Newtonsoft.Json.dll
+C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Newtonsoft.Json.xml
+C:\www\dotnet\Bazar-MVC\Bazar\obj\Debug\Bazar.csprojResolveAssemblyReference.cache
+C:\www\dotnet\Bazar-MVC\Bazar\obj\Debug\Bazar.dll
+C:\www\dotnet\Bazar-MVC\Bazar\obj\Debug\Bazar.pdb

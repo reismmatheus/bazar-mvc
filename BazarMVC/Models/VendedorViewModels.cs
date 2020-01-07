@@ -11,5 +11,10 @@ namespace BazarMVC.Models
         {
             public string Nome { get; set; }
         }
+        public class VendedorEditViewModel
+        {
+            public int Id { get; set; }
+            public string Nome { get; set; }
+        }
     }
 }

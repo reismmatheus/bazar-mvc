@@ -1,4 +1,5 @@
-﻿using Bazar.Interface;
+﻿using Bazar.Class;
+using Bazar.Interface;
 using BazarMVC.Repositories.Model;
 using System;
 using System.Collections.Generic;
@@ -90,62 +91,44 @@ namespace BazarMVC.Controllers
         public ActionResult Create(VendasCreateViewModel model)
         {
             InterfaceBazar bazar = new InterfaceBazar();
-            var compradores = bazar.GetCompradores();
-            if (!compradores.ProccessOk)
-            {
-                return View(model);
-            }
-            foreach (var item in compradores.ListaComprador)
-            {
-                CompradorModel comprador = new CompradorModel();
-                comprador.Id = item.Id;
-                comprador.Nome = item.Nome;
-                model.ListaCompradores.Add(comprador);
-            }
 
-            var produtos = bazar.GetProdutos();
-            if (!produtos.ProccessOk)
-            {
-                return View(model);
-            }
-            foreach (var item in produtos.ListaProduto)
-            {
-                ProdutosModel produto = new ProdutosModel();
-                produto.Id = item.Id;
-                produto.Nome = item.Nome;
-                produto.Preco = item.Preco;
-                produto.Quantidade = item.Quantidade;
-                var vendedor = bazar.GetVendedor(item.IdVendedor.ToString());
-                if (!produtos.ProccessOk)
-                {
-                    return View(model);
-                }
-                produto.Vendedor = vendedor.Vendedor.Nome;
-                model.ListaProdutos.Add(produto);
-            }
             var compradorEscolhido = model.ListaCompradores.Where(a => a.Id.ToString() == model.Comprador);
-            if(compradorEscolhido.FirstOrDefault() != null)
+            if (compradorEscolhido.FirstOrDefault() != null)
                 model.Comprador = compradorEscolhido.FirstOrDefault().Nome;
-            
-            var produtoEscolhido = model.ListaProdutos.Where(a => a.Id == model.ProdutoSelecionado);
-            model.ListaProdutosEscolhidos.Add(produtoEscolhido.First());
 
-            var produtosDisponiveis = model.ListaProdutos.Where(y => y.Id.ToString() != produtoEscolhido.First().Id.ToString());
-            model.ListaProdutos = produtosDisponiveis.ToList();
+            //Botão Cadastrar
+            if (model.ProdutoSelecionado == 0)
+            {
+                Venda venda = new Venda();
+                venda.IdComprador = 1;
+                var cadastroVenda = bazar.AdicionarVenda(venda);
 
-            model.ValorTotal += produtoEscolhido.First().Preco;
+                TempData["MensagemSucesso"] = "Venda cadastrada com sucesso!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Adicionar da Lista de Compras
+                if (model.ListaProdutos.Any(x => x.Id == model.ProdutoSelecionado))
+                {
+                    var produto = model.ListaProdutos.Where(a => a.Id == model.ProdutoSelecionado).ToList().First();
+                    model.ListaProdutosEscolhidos.Add(produto);
+                    model.ListaProdutos.Remove(produto);
+                    model.ValorTotal += produto.Preco;
+                }
+                //Removar da Lista de Compras
+                else
+                {
+                    var produto = model.ListaProdutosEscolhidos.Where(a => a.Id == model.ProdutoSelecionado).ToList().First();
+                    model.ListaProdutos.Add(produto);
+                    model.ListaProdutosEscolhidos.Remove(produto);
+                    model.ValorTotal -= produto.Preco;
+                }
 
-            return View(model);
-            //try
-            //{
-            //    // TODO: Add insert logic here
+                ModelState.Clear();
 
-            //    return RedirectToAction("Index");
-            //}
-            //catch
-            //{
-            //    return View(model);
-            //}
+                return View(model);
+            }
         }
 
         // GET: Vendas/Edit/5

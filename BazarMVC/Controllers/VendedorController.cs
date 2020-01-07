@@ -13,11 +13,11 @@ namespace BazarMVC.Controllers
 {
     public class VendedorController : Controller
     {
+        InterfaceBazar bazar = new InterfaceBazar();
         // GET: Vendedor
         public ActionResult Index()
         {
             List<VendedorModel> listaVendedores = new List<VendedorModel>();
-            InterfaceBazar bazar = new InterfaceBazar();
             var getVendedores = bazar.GetVendedores();
             if (!getVendedores.ProccessOk)
             {
@@ -49,7 +49,6 @@ namespace BazarMVC.Controllers
         [HttpPost]
         public ActionResult Create(VendedorCreateViewModel model)
         {
-            InterfaceBazar bazar = new InterfaceBazar();
             try
             {
                 Vendedor vendedor = new Vendedor();
@@ -72,17 +71,23 @@ namespace BazarMVC.Controllers
         // GET: Vendedor/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            VendedorEditViewModel model = new VendedorEditViewModel();
+            var getVendedor = bazar.GetVendedor(id.ToString());
+            if (!getVendedor.ProccessOk)
+            {
+                return View(model);
+            }
+            model.Id = getVendedor.Vendedor.Id;
+            model.Nome = getVendedor.Vendedor.Nome;
+            return View(model);
         }
 
         // POST: Vendedor/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(VendedorEditViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch

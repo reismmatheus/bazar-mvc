@@ -75,8 +75,7 @@ namespace BazarMVC.Controllers
             {
                 Produto produto = new Produto();
                 produto.Nome = model.Nome;
-                var precoTotal = model.Preco.Split('.');
-                produto.Preco = float.Parse(precoTotal[0]) + (float.Parse(precoTotal[1]) / 100);
+                produto.Preco = float.Parse(model.Preco);
                 produto.Quantidade = model.Quantidade;
                 produto.IdVendedor = int.Parse(model.Vendedor);
                 var venda = bazar.AdicionarProduto(produto);

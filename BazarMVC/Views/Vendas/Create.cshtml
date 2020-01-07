@@ -26,6 +26,30 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        
+                        for (int i = 0; i < Model.ListaProdutos.Count; i++)
+                        {
+                            @Html.HiddenFor(m => Model.ListaProdutos[i].Id)
+                            @Html.HiddenFor(m => Model.ListaProdutos[i].Nome)
+                            @Html.HiddenFor(m => Model.ListaProdutos[i].Preco)
+                            @Html.HiddenFor(m => Model.ListaProdutos[i].Quantidade)
+                            @Html.HiddenFor(m => Model.ListaProdutos[i].Vendedor)
+                        }
+
+                        for (int i = 0; i < Model.ListaProdutosEscolhidos.Count; i++)
+                        {
+                            @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Id)
+                            @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Nome)
+                            @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Preco)
+                            @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Quantidade)
+                            @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Vendedor)
+                        }
+
+                        for (int i = 0; i < Model.ListaCompradores.Count; i++)
+                        {
+                            @Html.HiddenFor(m => Model.ListaCompradores[i].Id)
+                            @Html.HiddenFor(m => Model.ListaCompradores[i].Nome)
+                        }
 
                         if (ViewBag.MensagemErro != null)
                         {
@@ -48,12 +72,12 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Preço Total</label>
-                                        <input type="text" class="form-control" id="" name="ValorTotal" value="@Model.ValorTotal" readonly>
+                                        <input type="text" class="form-control" id="" name="ValorTotal" value="@Model.ValorTotal.ToString("C2")" readonly>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <table class="table table-striped" name="ListaProdutos">
+                                        <table class="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Produto</th>
@@ -67,10 +91,10 @@
                                                 @foreach (var item in Model.ListaProdutos)
                                                 {
                                                     <tr>
-                                                        <td name="ListaProdutos[0]" value="@item.Nome">@item.Nome</td>
-                                                        <td name="ListaProdutos[0]">@item.Preco.ToString("c2")</td>
-                                                        <td name="ListaProdutos[0]">@item.Quantidade</td>
-                                                        <td name="ListaProdutos[0].Vendedor">@item.Vendedor</td>
+                                                        <td>@item.Nome</td>
+                                                        <td>@item.Preco.ToString("c2")</td>
+                                                        <td>@item.Quantidade</td>
+                                                        <td>@item.Vendedor</td>
                                                         <td>
                                                             <button type="submit" class="btn btn-info" name="ProdutoSelecionado" value="@item.Id">
                                                                 <span class="fa fa-plus"></span>
@@ -94,7 +118,7 @@
                                                     <th scope="col">Ação</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="ProdutosEscolhidos">
                                                 @foreach (var item in Model.ListaProdutosEscolhidos)
                                                 {
                                                     <tr>
@@ -117,23 +141,6 @@
                             </div>
                         </div>
 
-                        using (Html.BeginForm("Create", "Vendas", FormMethod.Get))
-                        {
-                            <div class="form-inline">
-                                <div class="input-group input-group hidden-xs">
-                                    @Html.TextBox("Search", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control pull-right", placeholder = "Filtrar Nome ou Cpf" })
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-
-                                <a href="@Url.Action("Create")" class="btn btn-warning">
-                                    <span class="fa fa-plus"></span> Novo
-                                </a>
-
-                            </div>
-                        }
-
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" id="Cadastrar">Cadastrar</button>
                         </div>
@@ -146,6 +153,8 @@
 </section>
 
 <script>
+
+    //Esconder Value List
     var des = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
     Object.defineProperty(HTMLInputElement.prototype, 'value', {
         get: function () {
