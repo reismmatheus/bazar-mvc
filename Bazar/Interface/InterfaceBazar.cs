@@ -72,16 +72,19 @@ namespace Bazar.Interface
         {
             return new VendaRepository(_sqlConn).ListarVendas();
         }
-        public BaseResult CalcularVenda(string id)
+        public VendaResult CalcularVenda(Venda venda)
         {
-            BaseResult result = new VendaResult();
+            VendaResult result = new VendaResult();
             VendaRepository repository = new VendaRepository(_sqlConn);
-            result = repository.CalcularVenda(id);
-            if (!result.ProccessOk)
+            var atualizarVenda = repository.AtualizarVenda(venda);
+            if (!atualizarVenda.ProccessOk)
             {
+                result.MsgCatch = "Erro ao atualizar venda";
+                result.ProccessOk = false;
                 return result;
             }
 
+            result.ProccessOk = true;
             return result;
         }
         public VendaResult GetVenda(string id)
@@ -94,21 +97,30 @@ namespace Bazar.Interface
             var adicionarVenda = new VendaRepository(_sqlConn).AdicionarVenda(venda);
             if (!adicionarVenda.ProccessOk)
             {
+                result.MsgError = adicionarVenda.MsgError;
+                result.MsgCatch = adicionarVenda.MsgCatch;
                 result.ProccessOk = false;
-                result.MsgCatch = "Erro ao Adicionar Venda";
                 return result;
             }
+            result.Venda.Id = adicionarVenda.Venda.Id;
 
             foreach (var produto in venda.ListaProdutoVendido)
             {
+                produto.IdVenda = adicionarVenda.Venda.Id;
                 var adicionarProdutos = new ProdutoVendidoRepository(_sqlConn).AdicionarProdutoVendido(produto);
+                if (!adicionarVenda.ProccessOk)
+                {
+                    result.ProccessOk = false;
+                    result.MsgCatch = "Erro ao Adicionar Produto na Venda";
+                    return result;
+                }
             }
 
+            result.ProccessOk = true;
             return result;
         }
-        public VendaResult EditarVenda(string id, Venda venda)
+        public VendaResult EditarVenda(Venda venda)
         {
-            venda.Id = int.Parse(id);
             return new VendaRepository(_sqlConn).AtualizarVenda(venda);
         }
         #endregion
@@ -126,12 +138,47 @@ namespace Bazar.Interface
         {
             return new ProdutoRepository(_sqlConn).AdicionarProduto(produto);
         }
+        public ProdutoResult DiminuirQuantidadeProduto(Produto produto, int quantidade)
+        {
+            ProdutoResult result = new ProdutoResult();
+            ProdutoRepository repository = new ProdutoRepository(_sqlConn);
+
+            var getProduto = repository.GetProduto(produto.Id);
+            if (!getProduto.ProccessOk)
+            {
+                return result;
+            }
+            if(getProduto.Produto.Quantidade - quantidade < 0)
+            {
+                return result;
+            }
+
+            produto.Quantidade -= quantidade;
+            var diminuirProduto = repository.AtualizarProduto(produto);
+            if (!diminuirProduto.ProccessOk)
+            {
+                return result;
+            }
+
+            return result;
+        }
         #endregion
 
-        public ListaProdutoVendidoResult GetProdutosVendidos()
+        #region Produtos Vendidos
+
+        public ListaProdutoVendidoResult GetProdutosVendidos(Venda venda = null)
         {
-            return new ProdutoVendidoRepository(_sqlConn).ListarProdutosVendidos();
+            int idVenda = 0;
+
+            if(venda != null)
+            {
+                idVenda = venda.Id;
+            }
+
+            return new ProdutoVendidoRepository(_sqlConn).ListarProdutosVendidos(idVenda);
         }
+
+        #endregion
 
     }
 }

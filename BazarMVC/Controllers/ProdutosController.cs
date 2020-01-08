@@ -3,6 +3,7 @@ using Bazar.Interface;
 using BazarMVC.Repositories.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -35,6 +36,7 @@ namespace BazarMVC.Controllers
                     return View(listaProdutos);
                 }
                 produto.Vendedor = vendedor.Vendedor.Nome;
+                produto.IdVendedor = vendedor.Vendedor.Id;
                 listaProdutos.Add(produto);
             }
             return View(listaProdutos);
@@ -75,7 +77,7 @@ namespace BazarMVC.Controllers
             {
                 Produto produto = new Produto();
                 produto.Nome = model.Nome;
-                produto.Preco = float.Parse(model.Preco);
+                produto.Preco = float.Parse(model.Preco, CultureInfo.InvariantCulture.NumberFormat);
                 produto.Quantidade = model.Quantidade;
                 produto.IdVendedor = int.Parse(model.Vendedor);
                 var venda = bazar.AdicionarProduto(produto);
@@ -83,7 +85,7 @@ namespace BazarMVC.Controllers
                 {
                     return View(model);
                 }
-                TempData["MensagemSucesso"] = "Comprador cadastrado com sucesso!";
+                TempData["MensagemSucesso"] = "Produto cadastrado com sucesso!";
                 return RedirectToAction("Index");
             }
             catch

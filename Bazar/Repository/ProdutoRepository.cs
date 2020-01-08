@@ -118,7 +118,6 @@ namespace Bazar.Repository
             result.ProccessOk = true;
             return result;
         }
-
         public ProdutoResult AtualizarProduto(Produto produto)
         {
             ProdutoResult result = new ProdutoResult();
@@ -128,6 +127,7 @@ namespace Bazar.Repository
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@id", produto.Id));
                 cmd.Parameters.Add(new SqlParameter("@nome", produto.Nome));
                 cmd.Parameters.Add(new SqlParameter("@preco", produto.Preco));
                 cmd.Parameters.Add(new SqlParameter("@quantidade", produto.Quantidade));

@@ -69,6 +69,10 @@ namespace BazarMVC.Controllers
             }
             foreach (var item in produtos.ListaProduto)
             {
+                if(item.Quantidade < 1)
+                {
+                    continue;
+                }
                 ProdutosModel produto = new ProdutosModel();
                 produto.Id = item.Id;
                 produto.Nome = item.Nome;
@@ -80,6 +84,7 @@ namespace BazarMVC.Controllers
                     return View(model);
                 }
                 produto.Vendedor = vendedor.Vendedor.Nome;
+                produto.IdVendedor = vendedor.Vendedor.Id;
                 model.ListaProdutos.Add(produto);
             }
 
@@ -92,16 +97,49 @@ namespace BazarMVC.Controllers
         {
             InterfaceBazar bazar = new InterfaceBazar();
 
-            var compradorEscolhido = model.ListaCompradores.Where(a => a.Id.ToString() == model.Comprador);
-            if (compradorEscolhido.FirstOrDefault() != null)
-                model.Comprador = compradorEscolhido.FirstOrDefault().Nome;
+            //var compradorEscolhido = model.ListaCompradores.Where(a => a.Id.ToString() == model.Comprador);
+            //if (compradorEscolhido.FirstOrDefault() != null)
+            //    model.Comprador = compradorEscolhido.FirstOrDefault().Nome;
 
             //Botão Cadastrar
             if (model.ProdutoSelecionado == 0)
             {
                 Venda venda = new Venda();
-                venda.IdComprador = 1;
+                if(model.Comprador == null)
+                {
+                    return View(model);
+                }
+                venda.IdComprador = int.Parse(model.Comprador);
+                List<ProdutoVendido> listaProdutos = new List<ProdutoVendido>();
+                foreach (var item in model.ListaProdutosEscolhidos)
+                {
+                    ProdutoVendido produto = new ProdutoVendido();
+                    produto.IdProduto = item.Id;
+                    produto.PrecoPago = item.Preco;
+                    produto.Quantidade = item.Quantidade;
+                    listaProdutos.Add(produto);
+                }
+
+                venda.ListaProdutoVendido = listaProdutos;
                 var cadastroVenda = bazar.AdicionarVenda(venda);
+                if (!cadastroVenda.ProccessOk)
+                {
+                    return View(model);
+                }
+
+                cadastroVenda.Venda.ValorTotal = model.ValorTotal;
+                var calcularVenda = bazar.CalcularVenda(cadastroVenda.Venda);
+                if (!calcularVenda.ProccessOk)
+                {
+                    return View(model);
+                }
+
+                foreach (var item in listaProdutos)
+                {
+                    var produto = bazar.GetProduto(item.IdProduto);
+                    item.Quantidade = 1;
+                    var diminuirProduto = bazar.DiminuirQuantidadeProduto(produto.Produto, item.Quantidade);
+                }
 
                 TempData["MensagemSucesso"] = "Venda cadastrada com sucesso!";
                 return RedirectToAction("Index");
@@ -131,6 +169,7 @@ namespace BazarMVC.Controllers
             }
         }
 
+        #region depois
         // GET: Vendas/Edit/5
         public ActionResult Edit(int id)
         {
@@ -173,6 +212,37 @@ namespace BazarMVC.Controllers
             {
                 return View();
             }
+        }
+
+        #endregion
+
+        public ActionResult ListarProdutos(string id)
+        {
+            InterfaceBazar bazar = new InterfaceBazar();
+            Venda venda = new Venda();
+            venda.Id = int.Parse(id);
+            var listaProdutos = bazar.GetProdutosVendidos(venda);
+            if (!listaProdutos.ProccessOk)
+            {
+                return View();
+            }
+            List<ProdutosVendidosModel> model = new List<ProdutosVendidosModel>();
+            foreach (var item in listaProdutos.ListaProdutoVendido)
+            {
+                ProdutosVendidosModel produto = new ProdutosVendidosModel();
+                produto.Id = item.Id;
+                produto.PrecoPago = item.PrecoPago;
+                produto.Quantidade = item.Quantidade;
+                var nomeProduto = bazar.GetProduto(item.IdProduto);
+                if (!nomeProduto.ProccessOk)
+                {
+                    return View();
+                }
+                produto.Produto = nomeProduto.Produto.Nome;
+                model.Add(produto);
+            }
+
+            return PartialView(model);
         }
     }
 }

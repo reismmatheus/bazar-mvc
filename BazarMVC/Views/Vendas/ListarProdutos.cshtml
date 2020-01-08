@@ -1,0 +1,51 @@
+﻿@model List<BazarMVC.Repositories.Model.ProdutosVendidosModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@{
+
+    ViewBag.ContentClass = "no-padding";
+    ViewBag.BodyClass = "sidebar-collapse";
+
+    ViewBag.Index = 0;
+}
+<style>
+</style>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Produto</td>
+                    <td>@item.PrecoPago.ToString("c2")</td>
+                    <td>@item.Quantidade</td>
+                    <td>
+                        @if (item.Status == 0)
+                        {
+                            <span>Não Pago</span>
+                        }
+                        else
+                        {
+                            <span>Pago</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+</script>

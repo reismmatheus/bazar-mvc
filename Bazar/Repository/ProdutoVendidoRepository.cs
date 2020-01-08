@@ -46,7 +46,7 @@ namespace Bazar.Repository
             result.ProccessOk = true;
             return result;
         }
-        public ProdutoVendidoResult GetProdutoVendido(string id)
+        public ProdutoVendidoResult GetProdutoVendido(int id)
         {
             ProdutoVendidoResult result = new ProdutoVendidoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
@@ -81,12 +81,12 @@ namespace Bazar.Repository
             }
             return result;
         }
-        public ListaProdutoVendidoResult ListarProdutosVendidos(string id = "")
+        public ListaProdutoVendidoResult ListarProdutosVendidos(int id = 0)
         {
             ListaProdutoVendidoResult result = new ListaProdutoVendidoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            id = id != "" ? " WHERE id=" + id : "";
-            string sql = @"SELECT * FROM ProdutoVendido" + id;
+            string idSql = id != 0 ? " WHERE IdVenda=" + id : "";
+            string sql = @"SELECT * FROM ProdutoVendido" + idSql;
 
             try
             {

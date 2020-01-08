@@ -4,6 +4,8 @@
     ViewBag.Title = "Produtos Vendidos";
 }
 
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -36,7 +38,7 @@
                         </a>
                     </li>
                 </ul>
-                <table class="table table-striped">
+                <table class="table table-striped" id="myDataTable">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -75,3 +77,4 @@
     </div>
     <!-- /.container-fluid -->
 </section>
+

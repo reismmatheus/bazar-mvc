@@ -34,6 +34,7 @@
                             @Html.HiddenFor(m => Model.ListaProdutos[i].Preco)
                             @Html.HiddenFor(m => Model.ListaProdutos[i].Quantidade)
                             @Html.HiddenFor(m => Model.ListaProdutos[i].Vendedor)
+                            @Html.HiddenFor(m => Model.ListaProdutos[i].IdVendedor)
                         }
 
                         for (int i = 0; i < Model.ListaProdutosEscolhidos.Count; i++)
@@ -43,6 +44,7 @@
                             @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Preco)
                             @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Quantidade)
                             @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].Vendedor)
+                            @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].IdVendedor)
                         }
 
                         for (int i = 0; i < Model.ListaCompradores.Count; i++)
@@ -72,7 +74,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Preço Total</label>
-                                        <input type="text" class="form-control" id="" name="ValorTotal" value="@Model.ValorTotal.ToString("C2")" readonly>
+                                        <input type="text" class="form-control" name="ValorTotal" value="@Model.ValorTotal" readonly>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6">
@@ -163,7 +165,7 @@
                 var opt = [].find.call(this.list.options, function (option) {
                     return option.value === value;
                 });
-                document.getElementById("NameComprador").value = opt.dataset.value;
+                document.getElementById("NameComprador").value = opt ? opt.dataset.value : value;
                 return opt ? opt.dataset.value : value;
             }
         }

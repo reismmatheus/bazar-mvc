@@ -12,5 +12,6 @@ namespace BazarMVC.Repositories.Model
         public float Preco { get; set; }
         public int Quantidade { get; set; }
         public string Vendedor { get; set; }
+        public int IdVendedor { get; set; }
     }
 }
