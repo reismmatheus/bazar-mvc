@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace BazarMVC.Controllers
 {
+    [Authorize]
     public class ProdutosVendidosController : Controller
     {
         // GET: ProdutosVendidos

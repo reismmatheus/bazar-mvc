@@ -10,6 +10,7 @@ using static BazarMVC.Models.VendasViewModels;
 
 namespace BazarMVC.Controllers
 {
+    [Authorize]
     public class VendasController : Controller
     {
         // GET: Vendas

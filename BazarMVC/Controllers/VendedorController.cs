@@ -11,6 +11,7 @@ using static BazarMVC.Models.VendedorViewModels;
 
 namespace BazarMVC.Controllers
 {
+    [Authorize]
     public class VendedorController : Controller
     {
         InterfaceBazar bazar = new InterfaceBazar();
@@ -42,7 +43,7 @@ namespace BazarMVC.Controllers
         // GET: Vendedor/Create
         public ActionResult Create()
         {
-            return View(new VendedorCreateViewModel());
+            return View(new RegisterViewModel());
         }
 
         // POST: Vendedor/Create

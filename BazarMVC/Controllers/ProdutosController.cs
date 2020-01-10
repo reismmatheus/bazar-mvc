@@ -11,6 +11,7 @@ using static BazarMVC.Models.ProdutosViewModels;
 
 namespace BazarMVC.Controllers
 {
+    [Authorize]
     public class ProdutosController : Controller
     {
         // GET: Produtos
