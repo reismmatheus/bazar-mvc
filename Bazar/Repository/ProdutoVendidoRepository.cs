@@ -20,7 +20,7 @@ namespace Bazar.Repository
         {
             ProdutoVendidoResult result = new ProdutoVendidoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "INSERT INTO ProdutoVendido(Preco_Pago, Status, Quantidade, IdProduto, IdVenda) VALUES(@precoPago, @status, @quantidade, @idProduto, @idVenda)";
+            string sql = "INSERT INTO ProdutoVendido(PrecoPago, Status, Quantidade, IdProduto, IdVenda) VALUES(@precoPago, @status, @quantidade, @idProduto, @idVenda)";
 
             try
             {
@@ -62,8 +62,8 @@ namespace Bazar.Repository
                 while (reader.Read())
                 {
                     result.ProdutoVendido.Id = int.Parse(reader["Id"].ToString());
-                    result.ProdutoVendido.PrecoPago = int.Parse(reader["Preco_Pago"].ToString());
-                    result.ProdutoVendido.Status = int.Parse(reader["Preco_Pago"].ToString());
+                    result.ProdutoVendido.PrecoPago = int.Parse(reader["PrecoPago"].ToString());
+                    result.ProdutoVendido.Status = int.Parse(reader["Status"].ToString());
                     result.ProdutoVendido.Quantidade = int.Parse(reader["Quantidade"].ToString());
                     result.ProdutoVendido.IdProduto = int.Parse(reader["IdProduto"].ToString());
                     result.ProdutoVendido.IdVenda = int.Parse(reader["IdVenda"].ToString());
@@ -98,7 +98,7 @@ namespace Bazar.Repository
                 {
                     ProdutoVendido produtoVendido = new ProdutoVendido();
                     produtoVendido.Id = int.Parse(reader["Id"].ToString());
-                    produtoVendido.PrecoPago = float.Parse(reader["Preco_Pago"].ToString());
+                    produtoVendido.PrecoPago = float.Parse(reader["PrecoPago"].ToString());
                     produtoVendido.Status = int.Parse(reader["Status"].ToString());
                     produtoVendido.Quantidade = int.Parse(reader["Quantidade"].ToString());
                     produtoVendido.IdProduto = int.Parse(reader["IdProduto"].ToString());
@@ -123,7 +123,7 @@ namespace Bazar.Repository
         {
             ProdutoVendidoResult result = new ProdutoVendidoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "UPDATE ProdutoVendido SET Preco_Pago = @preco, Status = @status, Quantidade = @quantidade WHERE Id = @id";
+            string sql = "UPDATE ProdutoVendido SET PrecoPago = @preco, Status = @status, Quantidade = @quantidade WHERE Id = @id";
 
             try
             {

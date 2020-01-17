@@ -20,7 +20,7 @@ namespace Bazar.Repository
         {
             ProdutoResult result = new ProdutoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "INSERT INTO Produto(Nome, Preco, IdVendedor, Quantidade) VALUES(@nome, @preco, @idVendedor, @quantidade)";
+            string sql = "INSERT INTO Produto(Nome, Preco, IdVendedor, Quantidade, Descricao) VALUES(@nome, @preco, @idVendedor, @quantidade, @descricao)";
 
             try
             {
@@ -29,6 +29,7 @@ namespace Bazar.Repository
                 cmd.Parameters.Add(new SqlParameter("@preco", produto.Preco));
                 cmd.Parameters.Add(new SqlParameter("@idVendedor", produto.IdVendedor));
                 cmd.Parameters.Add(new SqlParameter("@quantidade", produto.Quantidade));
+                cmd.Parameters.Add(new SqlParameter("@descricao", produto.Descricao));
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }

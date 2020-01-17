@@ -49,14 +49,13 @@ namespace BazarMVC.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
+        [Display(Name = "Senha")]
+        public string Senha { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
@@ -64,7 +63,15 @@ namespace BazarMVC.Models
 
     public class RegisterViewModel
     {
+        public string Perfil { get; set; }
+        //[Required]
+        public string Username { get; set; }
+
+        //[Required]
         public string Nome { get; set; }
+
+        //[Required]
+        public string Sobrenome { get; set; }
 
         [Required]
         [EmailAddress]
@@ -75,12 +82,12 @@ namespace BazarMVC.Models
         [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
-        public string Password { get; set; }
+        public string Senha { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "As senhas não são iguais.")]
-        public string ConfirmPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirmar Senha")]
+        //[Compare("Password", ErrorMessage = "As senhas não são iguais.")]
+        public string ConfirmarSenha { get; set; }
     }
 
     public class ResetPasswordViewModel

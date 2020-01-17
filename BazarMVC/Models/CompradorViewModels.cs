@@ -10,6 +10,7 @@ namespace BazarMVC.Models
         public class CompradorCreateViewModel
         {
             public string Nome { get; set; }
+            public string Sobrenome { get; set; }
         }
     }
 }

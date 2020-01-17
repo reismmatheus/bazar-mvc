@@ -28,6 +28,7 @@ namespace BazarMVC.Controllers
                 CompradorModel comprador = new CompradorModel();
                 comprador.Id = item.Id;
                 comprador.Nome = item.Nome;
+                comprador.Sobrenome = item.Sobrenome;
                 listaCompradores.Add(comprador);
             }
             return View(listaCompradores);
@@ -54,6 +55,7 @@ namespace BazarMVC.Controllers
             {
                 Comprador comprador = new Comprador();
                 comprador.Nome = model.Nome;
+                comprador.Sobrenome = model.Sobrenome;
                 var adicionarComprador = bazar.AdicionarComprador(comprador);
                 if (!adicionarComprador.ProccessOk)
                 {

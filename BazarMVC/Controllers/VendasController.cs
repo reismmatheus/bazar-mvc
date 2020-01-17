@@ -84,7 +84,7 @@ namespace BazarMVC.Controllers
                 {
                     return View(model);
                 }
-                produto.Vendedor = vendedor.Vendedor.Nome;
+                //produto.Vendedor = vendedor.Vendedor.Nome;
                 produto.IdVendedor = vendedor.Vendedor.Id;
                 model.ListaProdutos.Add(produto);
             }

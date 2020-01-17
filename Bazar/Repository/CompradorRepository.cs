@@ -20,12 +20,13 @@ namespace Bazar.Repository
         {
             CompradorResult result = new CompradorResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "INSERT INTO Comprador(Nome) VALUES(@nome)";
+            string sql = "INSERT INTO Comprador(Nome, Sobrenome) VALUES(@nome, @sobrenome)";
 
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add(new SqlParameter("@nome", comprador.Nome));
+                cmd.Parameters.Add(new SqlParameter("@sobrenome", comprador.Sobrenome));
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
@@ -90,6 +91,7 @@ namespace Bazar.Repository
                 while (reader.Read())
                 {
                     Comprador comprador = new Comprador();
+                    comprador.Sobrenome = reader["Sobrenome"].ToString();
                     comprador.Nome = reader["Nome"].ToString();
                     comprador.Id = int.Parse(reader["Id"].ToString());
                     result.ListaComprador.Add(comprador);

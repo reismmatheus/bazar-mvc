@@ -12,6 +12,7 @@ namespace Bazar.Class
         public string Nome { get; set; }
         public float Preco { get; set; }
         public int Quantidade { get; set; }
+        public string Descricao { get; set; }
         public int IdVendedor { get; set; }
     }
 }

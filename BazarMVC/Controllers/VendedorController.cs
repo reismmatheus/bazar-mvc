@@ -1,10 +1,14 @@
 ﻿using Bazar.Class;
 using Bazar.Interface;
 using BazarMVC.Models;
+using BazarMVC.Repositories;
 using BazarMVC.Repositories.Model;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static BazarMVC.Models.VendedorViewModels;
@@ -14,23 +18,30 @@ namespace BazarMVC.Controllers
     [Authorize]
     public class VendedorController : Controller
     {
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         InterfaceBazar bazar = new InterfaceBazar();
         // GET: Vendedor
         public ActionResult Index()
         {
-            List<VendedorModel> listaVendedores = new List<VendedorModel>();
+            List<AspNetUsersModel> listaVendedores = new List<AspNetUsersModel>();
             var getVendedores = bazar.GetVendedores();
             if (!getVendedores.ProccessOk)
             {
                 return View(listaVendedores);
             }
-            foreach (var item in getVendedores.ListaVendedor)
-            {
-                VendedorModel vendedor = new VendedorModel();
-                vendedor.Id = item.Id;
-                vendedor.Nome = item.Nome;
-                listaVendedores.Add(vendedor);
-            }
+            listaVendedores = new AspNetUsersRepository().GetUsuarios(getVendedores.ListaVendedor).ToList();
             return View(listaVendedores);
         }
 
@@ -48,12 +59,22 @@ namespace BazarMVC.Controllers
 
         // POST: Vendedor/Create
         [HttpPost]
-        public ActionResult Create(VendedorCreateViewModel model)
+        public async Task<ActionResult> Create(RegisterViewModel model)
         {
             try
             {
+                model.Perfil = "Vendedor";
+
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, Nome = model.Nome, Sobrenome = model.Sobrenome, DataCadastro = DateTime.Now };
+                var result = await UserManager.CreateAsync(user, model.Senha);
+                if (!result.Succeeded)
+                {
+                    return View(model);
+                }
+                UserManager.AddToRole(user.Id, model.Perfil);
+
                 Vendedor vendedor = new Vendedor();
-                vendedor.Nome = model.Nome;
+                vendedor.IdUser = user.Id;
                 var adicionarVendedor = bazar.AdicionarVendedor(vendedor);
                 if (!adicionarVendedor.ProccessOk)
                 {
@@ -63,7 +84,7 @@ namespace BazarMVC.Controllers
                 TempData["MensagemSucesso"] = "Vendedor cadastrado com sucesso!";
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
                 return View(model);
             }
@@ -79,7 +100,7 @@ namespace BazarMVC.Controllers
                 return View(model);
             }
             model.Id = getVendedor.Vendedor.Id;
-            model.Nome = getVendedor.Vendedor.Nome;
+            //model.Nome = getVendedor.Vendedor.Nome;
             return View(model);
         }
 

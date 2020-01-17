@@ -20,12 +20,12 @@ namespace Bazar.Repository
         {
             VendedorResult result = new VendedorResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "INSERT INTO Vendedor(Nome) VALUES(@nome)";
+            string sql = "INSERT INTO Vendedor(IdUser) VALUES(@IdUser)";
 
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@nome", vendedor.Nome));
+                cmd.Parameters.Add(new SqlParameter("@IdUser", vendedor.IdUser));
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
@@ -57,7 +57,7 @@ namespace Bazar.Repository
                 while (reader.Read())
                 {
                     result.Vendedor.Id = int.Parse(reader["Id"].ToString());
-                    result.Vendedor.Nome = reader["Nome"].ToString();
+                    result.Vendedor.IdUser = reader["IdUser"].ToString();
                 }
 
             }
@@ -90,7 +90,7 @@ namespace Bazar.Repository
                 {
                     Vendedor vendedor = new Vendedor();
                     vendedor.Id = int.Parse(reader["Id"].ToString());
-                    vendedor.Nome = reader["Nome"].ToString();
+                    vendedor.IdUser = reader["IdUser"].ToString();
                     result.ListaVendedor.Add(vendedor);
                 }
             }
@@ -107,33 +107,36 @@ namespace Bazar.Repository
             result.ProccessOk = true;
             return result;
         }
-        public VendedorResult AtualizarVendedor(Vendedor vendedor)
-        {
-            VendedorResult result = new VendedorResult();
-            SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "UPDATE Vendedor SET Nome = @nome WHERE Id = @id";
 
-            try
-            {
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@nome", vendedor.Nome));
-                cmd.Parameters.Add(new SqlParameter("@id", vendedor.Id));
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                result.ProccessOk = false;
-                result.MsgCatch = ex.ToString();
-                return result;
-            }
-            finally
-            {
-                conn.Close();
-            }
-            result.ProccessOk = true;
-            return result;
-        }
+        #region Atualizar Vendedor
+        //public VendedorResult AtualizarVendedor(Vendedor vendedor)
+        //{
+        //    VendedorResult result = new VendedorResult();
+        //    SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
+        //    string sql = "UPDATE Vendedor SET Nome = @nome WHERE Id = @id";
+
+        //    try
+        //    {
+        //        SqlCommand cmd = new SqlCommand(sql, conn);
+        //        cmd.Parameters.Add(new SqlParameter("@nome", vendedor.Nome));
+        //        cmd.Parameters.Add(new SqlParameter("@id", vendedor.Id));
+        //        conn.Open();
+        //        cmd.ExecuteNonQuery();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.ProccessOk = false;
+        //        result.MsgCatch = ex.ToString();
+        //        return result;
+        //    }
+        //    finally
+        //    {
+        //        conn.Close();
+        //    }
+        //    result.ProccessOk = true;
+        //    return result;
+        //}
+        #endregion
 
         #region Excluir
 

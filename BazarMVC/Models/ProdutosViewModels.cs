@@ -14,6 +14,7 @@ namespace BazarMVC.Models
             public string Preco { get; set; }
             public int Quantidade { get; set; }
             public string Vendedor { get; set; }
+            public string NomeVendedor { get; set; }
             public string Descricao { get; set; }
             public List<VendedorModel> ListaVendedores { get; set; }
             public ProdutosCreateViewModel()

@@ -56,11 +56,6 @@ namespace Bazar.Interface
         {
             return new VendedorRepository(_sqlConn).AdicionarVendedor(vendedor);
         }
-        public VendedorResult EditarVendedor(string id, Vendedor vendedor)
-        {
-            vendedor.Id = int.Parse(id);
-            return new VendedorRepository(_sqlConn).AtualizarVendedor(vendedor);
-        }
         #endregion
 
         #region Venda

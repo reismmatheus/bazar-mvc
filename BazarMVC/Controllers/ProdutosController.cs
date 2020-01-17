@@ -1,5 +1,6 @@
 ﻿using Bazar.Class;
 using Bazar.Interface;
+using BazarMVC.Repositories;
 using BazarMVC.Repositories.Model;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace BazarMVC.Controllers
                 {
                     return View(listaProdutos);
                 }
-                produto.Vendedor = vendedor.Vendedor.Nome;
+                //produto.Vendedor = vendedor.Vendedor.Nome;
                 produto.IdVendedor = vendedor.Vendedor.Id;
                 listaProdutos.Add(produto);
             }
@@ -63,7 +64,8 @@ namespace BazarMVC.Controllers
             {
                 VendedorModel vendedor = new VendedorModel();
                 vendedor.Id = item.Id;
-                vendedor.Nome = item.Nome;
+                var dadosVendedor = new AspNetUsersRepository().GetUsuario(item.IdUser);
+                vendedor.Nome = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
                 model.ListaVendedores.Add(vendedor);
             }
             return View(model);
@@ -81,6 +83,7 @@ namespace BazarMVC.Controllers
                 produto.Preco = float.Parse(model.Preco, CultureInfo.InvariantCulture.NumberFormat);
                 produto.Quantidade = model.Quantidade;
                 produto.IdVendedor = int.Parse(model.Vendedor);
+                produto.Descricao = model.Descricao;
                 var venda = bazar.AdicionarProduto(produto);
                 if (!venda.ProccessOk)
                 {

@@ -39,16 +39,20 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Nome</th>
+                            <th scope="col">Sobrenome</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Excluir</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <th scope="row">@item.Id</th>
                                 <td>@item.Nome</td>
+                                <td>@item.Sobrenome</td>
+                                <td>Edit</td>
+                                <td>Excluir</td>
                             </tr>
                         }
                     </tbody>
