@@ -11,7 +11,7 @@ namespace Bazar.Class
     {
         public int Id { get; set; }
         public float PrecoPago { get; set; }
-        public int Status { get; set; }
+        public bool Status { get; set; }
         public int Quantidade { get; set; }
         public int IdProduto { get; set; }
         public int IdVenda { get; set; }

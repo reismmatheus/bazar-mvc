@@ -14,36 +14,18 @@
                 {
                     <span>@TempData["MensagemSucesso"]</span>
                 }
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+            </div>
+        </div>
+    </div>
 </div>
-<!-- /.content-header -->
-<!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-12 col-6">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-                <table class="table table-striped">
+                <table class="table" data-sortable id="data-table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Comprador</th>
                             <th scope="col">Produtos</th>
                             <th scope="col">Total</th>
@@ -55,10 +37,9 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <th scope="row">@item.Id</th>
                                 <td>@item.Comprador</td>
                                 <td>
-                                    <a href="#" onclick="VisualizarRota('@item.Id')" class="btn btn-primary btn-sm">Produtos Comprados</a>
+                                    <a href="#" onclick="VendaDetalhada('@item.Id')" class="btn btn-primary btn-sm">Produtos Comprados</a>
                                 </td>
                                 <td>@item.ValorTotal.ToString("c2")</td>
                                 <td>
@@ -78,7 +59,6 @@
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
 </section>
 
 <!-- Modal -->
@@ -86,7 +66,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="appModalHeader"></h4>
+                <h4 class="modal-title">Lista de Produtos</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -100,6 +80,7 @@
                     <h5><i class="icon fa fa-ban"></i>Ocorreu um erro, favor tente novamente. Caso o erro persista contate o administrador.</h5>
                 </div>
                 <div id="appModalBody">
+                    TESTE
                 </div>
             </div>
             <div class="modal-footer">
@@ -111,9 +92,27 @@
 </div>
 
 <script>
+
+    $(document).ready(function () {
+        $('#data-table').dataTable({
+            "language": {
+                "paginate": {
+                    "previous": "Anterior",
+                    "next": "Próximo"
+                },
+                "lengthMenu": "Mostrando _MENU_ itens por página",
+                "zeroRecords": "Nada Encontrado",
+                "info": "Página _PAGE_ de _PAGES_",
+                "infoEmpty": "Sem itens para visualizar",
+                "infoFiltered": "(Filtrado de _MAX_ itens)",
+                "search": "Pesquisar"
+            }
+        });
+    });
+
     var urlBase = "http://" + window.location.host;
 
-    function VisualizarRota(id) {
+    function VendaDetalhada(id) {
         var url = urlBase + '/Vendas/ListarProdutos?Id=' + id;
         Util.AppModal.get(url).always(function () {
             $('#appModal').modal('show', { "width": "75%" });
@@ -179,16 +178,16 @@
         AppBox: {
             request: function (url, b) {
                 Util.Http.request(url)
-                    .done(function () {
-                        b = b || 0;
-                        //Util.AppBox.Overlay.show("#boxLoginLegado");
-                    })
-                    .always(function () {
-                        //Util.AppBox.Overlay.hide("#boxLoginLegado");
-                        if (b != null) {
-                            b();
-                        }
-                    });
+                   .done(function () {
+                       b = b || 0;
+                       //Util.AppBox.Overlay.show("#boxLoginLegado");
+                   })
+                   .always(function () {
+                       //Util.AppBox.Overlay.hide("#boxLoginLegado");
+                       if (b != null) {
+                           b();
+                       }
+                   });
             },
             Overlay: {
                 show: function (selector) {

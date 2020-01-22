@@ -28,7 +28,7 @@ namespace Bazar.Interface
         {
             return new CompradorRepository(_sqlConn).ListarComprador();
         }
-        public CompradorResult GetComprador(string id)
+        public CompradorResult GetComprador(int id)
         {
             return new CompradorRepository(_sqlConn).GetComprador(id);
         }
@@ -155,6 +155,7 @@ namespace Bazar.Interface
                 return result;
             }
 
+            result.ProccessOk = true;
             return result;
         }
         #endregion
@@ -171,6 +172,11 @@ namespace Bazar.Interface
             }
 
             return new ProdutoVendidoRepository(_sqlConn).ListarProdutosVendidos(idVenda);
+        }
+
+        public ProdutoVendidoResult AdicionarProdutoVendido(ProdutoVendido produtoVendido)
+        {
+            return new ProdutoVendidoRepository(_sqlConn).AdicionarProdutoVendido(produtoVendido);
         }
 
         #endregion

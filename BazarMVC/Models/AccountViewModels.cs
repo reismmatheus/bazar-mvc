@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BazarMVC.Repositories.Model;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BazarMVC.Models
@@ -63,14 +64,19 @@ namespace BazarMVC.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            TiposUsuario = new List<AspNetRolesModel>();
+        }
+        [Required]
         public string Perfil { get; set; }
-        //[Required]
+        [Required]
         public string Username { get; set; }
 
-        //[Required]
+        [Required]
         public string Nome { get; set; }
 
-        //[Required]
+        [Required]
         public string Sobrenome { get; set; }
 
         [Required]
@@ -84,10 +90,11 @@ namespace BazarMVC.Models
         [Display(Name = "Senha")]
         public string Senha { get; set; }
 
-        //[DataType(DataType.Password)]
-        //[Display(Name = "Confirmar Senha")]
-        //[Compare("Password", ErrorMessage = "As senhas não são iguais.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmar Senha")]
+        [Compare("Senha", ErrorMessage = "As senhas não são iguais.")]
         public string ConfirmarSenha { get; set; }
+        public List<AspNetRolesModel> TiposUsuario { get; set; }
     }
 
     public class ResetPasswordViewModel

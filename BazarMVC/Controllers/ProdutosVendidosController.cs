@@ -39,12 +39,12 @@ namespace BazarMVC.Controllers
                 {
                     return View(listaProdutosVendidos);
                 }
-                var comprador = bazar.GetComprador(venda.Venda.IdComprador.ToString());
+                var comprador = bazar.GetComprador(venda.Venda.IdComprador);
                 if (!comprador.ProccessOk)
                 {
                     return View(listaProdutosVendidos);
                 }
-                produto.Comprador = comprador.Comprador.Nome;
+                produto.Comprador = comprador.Comprador.Nome + " " + comprador.Comprador.Sobrenome;
                 listaProdutosVendidos.Add(produto);
             }
             return View(listaProdutosVendidos);

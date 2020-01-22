@@ -12,5 +12,6 @@ namespace BazarMVC.Repositories.Model
         public string Sobrenome { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
+        public string Tipo { get; set; }
     }
 }

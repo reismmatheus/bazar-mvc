@@ -19,27 +19,19 @@ namespace BazarMVC.Repositories
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
-        public IEnumerable<AspNetUsersModel> GetUsuarios(List<Vendedor> listaVendedor = null)
+        public IEnumerable<AspNetUsersModel> GetUsuarios()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                var query = @" SELECT * FROM AspNetUsers";
-
-                var result = connection.Query<AspNetUsersModel>(query);
-                List<AspNetUsersModel> listaUsuariosVendedor = new List<AspNetUsersModel>();
-
-                if(listaVendedor != null)
-                {
-                    foreach (var item in listaVendedor)
-                    {
-                        var usuarioVendedor = result.Where(x => x.Id == item.IdUser);
-                        listaUsuariosVendedor.AddRange(usuarioVendedor.ToList());
-                    }
-                    return listaUsuariosVendedor;
-                }
-                return result;
+                var query = @"select *, AspNetRoles.Name AS Tipo from AspNetUsers
+                            inner join AspNetUserRoles
+                            on AspNetUsers.Id = AspNetUserRoles.UserId
+                            inner join AspNetRoles
+                            on AspNetRoles.Id = AspNetUserRoles.RoleId";
+                
+                return connection.Query<AspNetUsersModel>(query);
             }
         }
         public AspNetUsersModel GetUsuario(string id)

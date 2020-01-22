@@ -9,7 +9,7 @@ namespace BazarMVC.Repositories.Model
     {
         public int Id { get; set; }
         public float PrecoPago { get; set; }
-        public int Status { get; set; }
+        public bool Status { get; set; }
         public int Quantidade { get; set; }
         public string Produto { get; set; }
         public string Comprador { get; set; }

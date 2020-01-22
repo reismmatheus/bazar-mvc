@@ -4,44 +4,22 @@
     ViewBag.Title = "Produtos Vendidos";
 }
 
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
-
-<!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Produtos Vendidos</h1>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+            </div>
+        </div>
+    </div>
 </div>
-<!-- /.content-header -->
-<!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-12 col-6">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-                <table class="table table-striped" id="myDataTable">
+                <table class="table" data-sortable id="data-table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Comprador</th>
                             <th scope="col">Preço Pago</th>
                             <th scope="col">Produto</th>
@@ -53,13 +31,12 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <th scope="row">@item.Id</th>
                                 <td>@item.Comprador</td>
                                 <td>R$ @item.PrecoPago</td>
                                 <td>@item.Produto</td>
                                 <td>@item.Quantidade</td>
                                 <td>
-                                    @if(item.Status == 0)
+                                    @if (!item.Status)
                                     {
                                         <span>Não Pago</span>
                                     }
@@ -67,14 +44,32 @@
                                     {
                                         <span>Pago</span>
                                     }
-                        </td>
-                    </tr>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
 </section>
+
+<script>
+    $(document).ready(function () {
+        $('#data-table').dataTable({
+            "language": {
+                "paginate": {
+                    "previous": "Anterior",
+                    "next": "Próximo"
+                },
+                "lengthMenu": "Mostrando _MENU_ itens por página",
+                "zeroRecords": "Nada Encontrado",
+                "info": "Página _PAGE_ de _PAGES_",
+                "infoEmpty": "Sem itens para visualizar",
+                "infoFiltered": "(Filtrado de _MAX_ itens)",
+                "search": "Pesquisar"
+            }
+        });
+    });
+</script>
 

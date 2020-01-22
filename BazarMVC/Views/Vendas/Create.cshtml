@@ -4,6 +4,24 @@
 
 @model BazarMVC.Models.VendasViewModels.VendasCreateViewModel
 
+<style>
+    .w-80px{
+        width: 80px;
+    }
+
+    .w-60px{
+        width: 60px;
+    }
+
+    .ml-10{
+        margin-left: 10px;
+    }
+
+    .mt-10{
+        margin-top: 10px;
+    }
+</style>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -12,15 +30,12 @@
                 <h1>Cadastro de Vendas</h1>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
-<!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <!-- left column -->
             <div class="col-md-12">
-                <!-- general form elements -->
                 <div class="card">
                     @using (Html.BeginForm())
                     {
@@ -47,10 +62,22 @@
                             @Html.HiddenFor(m => Model.ListaProdutosEscolhidos[i].IdVendedor)
                         }
 
+                        @Html.HiddenFor(m => Model.ProdutoEscolhido.Id)
+                        @Html.HiddenFor(m => Model.ProdutoEscolhido.IdVendedor)
+                        @Html.HiddenFor(m => Model.ProdutoEscolhido.Nome)
+                        @Html.HiddenFor(m => Model.ProdutoEscolhido.Preco)
+                        @Html.HiddenFor(m => Model.ProdutoEscolhido.Quantidade)
+                        @Html.HiddenFor(m => Model.ProdutoEscolhido.Vendedor)
+
                         for (int i = 0; i < Model.ListaCompradores.Count; i++)
                         {
                             @Html.HiddenFor(m => Model.ListaCompradores[i].Id)
                             @Html.HiddenFor(m => Model.ListaCompradores[i].Nome)
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.NomeComprador))
+                        {
+                            @Html.Hidden(Model.NomeComprador)
                         }
 
                         if (ViewBag.MensagemErro != null)
@@ -61,16 +88,16 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label for="exampleInputPassword1">Comprador</label>
-                                    <input list="compradores" class="form-control" placeholder="Comprador..." value="@Model.Comprador"
+                                    <input list="compradores" class="form-control" placeholder="Comprador..." value="@Model.NomeComprador" name="NomeComprador"
                                            oninput="console.log(this.value);">
                                     <datalist id="compradores">
                                         @foreach (var item in Model.ListaCompradores)
                                         {
-                                            <option data-value="@item.Id">@item.Nome</option>
+                                            <option data-value="@item.Id">@item.Nome @item.Sobrenome</option>
                                         }
                                     </datalist>
                                 </div>
-                                <input type="text" name="Comprador" id="NameComprador" style="display: none;">
+                                <input type="text" name="Comprador" id="CompradorId" value="@Model.Comprador" style="display: none;" oninput="console.log(this.value);">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Preço Total</label>
@@ -83,10 +110,12 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Produto</th>
-                                                    <th scope="col">Preço</th>
-                                                    <th scope="col">Quantidade</th>
+                                                    <th scope="col" class="w-80px">Preço</th>
+                                                    <th scope="col">Disponível</th>
                                                     <th scope="col">Vendedor</th>
-                                                    <th scope="col">Ação</th>
+                                                    <th scope="col">Adicionar</th>
+                                                    <th scope="col">Qtde</th>
+                                                    <th scope="col">Pago</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -101,6 +130,12 @@
                                                             <button type="submit" class="btn btn-info" name="ProdutoSelecionado" value="@item.Id">
                                                                 <span class="fa fa-plus"></span>
                                                             </button>
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" class="form-control w-60px" placeholder="Quantidade" min="1" step="any" name="ProdutoQuantidadeAdicionar">
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" class="ml-10 mt-10" name="ProdutoPago">
                                                         </td>
                                                     </tr>
                                                 }
@@ -117,7 +152,8 @@
                                                     <th scope="col">Preço</th>
                                                     <th scope="col">Quantidade</th>
                                                     <th scope="col">Vendedor</th>
-                                                    <th scope="col">Ação</th>
+                                                    <th scope="col">Remover</th>
+                                                    <th scope="col">Pago</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="ProdutosEscolhidos">
@@ -134,6 +170,9 @@
                                                                 <span class="fa fa-minus"></span>
                                                             </button>
                                                         </td>
+                                                        <td>
+                                                            <input type="checkbox" class="ml-10 mt-10" onclick="return false;">
+                                                        </td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -149,13 +188,11 @@
                     }
                 </div>
             </div>
-            <!--/.col -->
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
+    </div>
 </section>
 
 <script>
-
     //Esconder Value List
     var des = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
     Object.defineProperty(HTMLInputElement.prototype, 'value', {
@@ -165,7 +202,7 @@
                 var opt = [].find.call(this.list.options, function (option) {
                     return option.value === value;
                 });
-                document.getElementById("NameComprador").value = opt ? opt.dataset.value : value;
+                document.getElementById("CompradorId").value = opt ? opt.dataset.value : value;
                 return opt ? opt.dataset.value : value;
             }
         }

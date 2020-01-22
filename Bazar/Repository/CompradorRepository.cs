@@ -43,7 +43,7 @@ namespace Bazar.Repository
             result.ProccessOk = true;
             return result;
         }
-        public CompradorResult GetComprador(string id)
+        public CompradorResult GetComprador(int id)
         {
             CompradorResult result = new CompradorResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
@@ -60,6 +60,7 @@ namespace Bazar.Repository
                 {
                     result.Comprador.Id = int.Parse(reader["Id"].ToString());
                     result.Comprador.Nome = reader["Nome"].ToString();
+                    result.Comprador.Sobrenome = reader["Sobrenome"].ToString();
                 }
 
             }

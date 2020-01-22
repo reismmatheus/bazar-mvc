@@ -30,7 +30,7 @@
                     <td>@item.PrecoPago.ToString("c2")</td>
                     <td>@item.Quantidade</td>
                     <td>
-                        @if (item.Status == 0)
+                        @if (!item.Status || item.Status == null)
                         {
                             <span>Não Pago</span>
                         }

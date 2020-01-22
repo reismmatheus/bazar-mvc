@@ -74,12 +74,23 @@ namespace BazarMVC.Controllers
         // GET: Comprador/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            InterfaceBazar bazar = new InterfaceBazar();
+            CompradorEditViewModel model = new CompradorEditViewModel();
+            var comprador = bazar.GetComprador(id);
+            if (!comprador.ProccessOk)
+            {
+                TempData["MensagemErro"] = "Erro ao Carregar Comprador";
+                return RedirectToAction("Index");
+            }
+            model.Id = comprador.Comprador.Id;
+            model.Nome = comprador.Comprador.Nome;
+            model.Sobrenome = comprador.Comprador.Sobrenome;
+            return View(model);
         }
 
         // POST: Comprador/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CompradorEditViewModel model)
         {
             try
             {

@@ -37,7 +37,8 @@ namespace BazarMVC.Controllers
                 {
                     return View(listaProdutos);
                 }
-                //produto.Vendedor = vendedor.Vendedor.Nome;
+                var dadosVendedor = new AspNetUsersRepository().GetUsuario(vendedor.Vendedor.IdUser);
+                produto.Vendedor = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
                 produto.IdVendedor = vendedor.Vendedor.Id;
                 listaProdutos.Add(produto);
             }

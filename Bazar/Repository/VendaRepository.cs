@@ -21,12 +21,13 @@ namespace Bazar.Repository
         {
             VendaResult result = new VendaResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "INSERT INTO Venda(IdComprador, ValorTotal) OUTPUT Inserted.Id AS IdVenda VALUES(@idComprador, 0)";
+            string sql = "INSERT INTO Venda(IdComprador, Total) OUTPUT Inserted.Id AS IdVenda VALUES(@idComprador, @valorTotal)";
 
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add(new SqlParameter("@idComprador", venda.IdComprador));
+                cmd.Parameters.Add(new SqlParameter("@valorTotal", venda.ValorTotal));
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -64,7 +65,7 @@ namespace Bazar.Repository
                 while (reader.Read())
                 {
                     result.Venda.Id = int.Parse(reader["Id"].ToString());
-                    result.Venda.ValorTotal = float.Parse(reader["ValorTotal"].ToString());
+                    result.Venda.ValorTotal = float.Parse(reader["Total"].ToString());
                     result.Venda.IdComprador = int.Parse(reader["IdComprador"].ToString());
                 }
 
@@ -119,12 +120,14 @@ namespace Bazar.Repository
                 try
                 {
                     conn.Open();
-                    sql = @"SELECT ProdutoVendido.Id AS IdProdutoVendido, Vendedor.Nome AS NomeVendedor, * FROM ProdutoVendido 
-                        LEFT JOIN Produto
-                        ON Produto.Id = ProdutoVendido.IdProduto
-						LEFT JOIN Vendedor
-						ON Vendedor.Id = Produto.IdVendedor
-                        WHERE IdVenda = @id";
+                    sql = @"SELECT ProdutoVendido.Id AS IdProdutoVendido, AspNetUsers.Nome AS Nome, AspNetUsers.Sobrenome AS Sobrenome, * FROM ProdutoVendido 
+                            LEFT JOIN Produto
+                            ON Produto.Id = ProdutoVendido.IdProduto
+							LEFT JOIN Vendedor
+							ON Vendedor.Id = ProdutoVendido.IdProduto
+							LEFT JOIN AspNetUsers
+							ON Vendedor.IdUser = AspNetUsers.Id
+                            WHERE IdVenda = @id";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add(new SqlParameter("@id", item.ToString()));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -135,9 +138,9 @@ namespace Bazar.Repository
                         produtoVendido.Id = int.Parse(reader["IdProdutoVendido"].ToString());
                         produtoVendido.IdProduto = int.Parse(reader["IdProduto"].ToString());
                         produtoVendido.IdVenda = int.Parse(reader["IdVenda"].ToString());
-                        produtoVendido.PrecoPago = float.Parse(reader["Preco_Pago"].ToString());
+                        produtoVendido.PrecoPago = float.Parse(reader["PrecoPago"].ToString());
                         produtoVendido.Quantidade = int.Parse(reader["Quantidade"].ToString());
-                        produtoVendido.Status = int.Parse(reader["Status"].ToString());
+                        produtoVendido.Status = reader["Status"].ToString() == "0" ? false : true;
                         listaProdutoVendido.Add(produtoVendido);
                     }
                 }
@@ -165,7 +168,7 @@ namespace Bazar.Repository
                     {
                         Venda venda = new Venda();
                         venda.Id = int.Parse(reader["Id"].ToString());
-                        venda.ValorTotal = float.Parse(reader["ValorTotal"].ToString());
+                        venda.ValorTotal = float.Parse(reader["Total"].ToString());
                         venda.IdComprador = int.Parse(reader["IdComprador"].ToString());
                         venda.ListaProdutoVendido = listaProdutoVendido;
                         result.ListaVenda.Add(venda);

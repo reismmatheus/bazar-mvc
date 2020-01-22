@@ -1,0 +1,56 @@
+﻿@model BazarMVC.Models.CompradorViewModels.CompradorEditViewModel
+@{
+    ViewBag.Title = "Editar Comprador";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Editar Comprador - @Model.Nome @Model.Sobrenome</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        if (ViewBag.MensagemErro != null)
+                        {
+                            <p class="text-danger margin-y">@ViewBag.MensagemErro</p>
+                        }
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Nome</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome..." name="Nome" value="@Model.Nome">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">Sobrenome</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Sobrenome..." name="Sobrenome" value="@Model.Sobrenome">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+            <!--/.col -->
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+</section>

@@ -35,14 +35,9 @@ namespace BazarMVC.Controllers
         // GET: Vendedor
         public ActionResult Index()
         {
-            List<AspNetUsersModel> listaVendedores = new List<AspNetUsersModel>();
-            var getVendedores = bazar.GetVendedores();
-            if (!getVendedores.ProccessOk)
-            {
-                return View(listaVendedores);
-            }
-            listaVendedores = new AspNetUsersRepository().GetUsuarios(getVendedores.ListaVendedor).ToList();
-            return View(listaVendedores);
+            List<AspNetUsersModel> model = new List<AspNetUsersModel>();
+            model = new AspNetUsersRepository().GetUsuarios().Where(x => x.Tipo.ToLower() == "vendedor").ToList();
+            return View(model);
         }
 
         // GET: Vendedor/Details/5

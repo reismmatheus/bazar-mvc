@@ -28,12 +28,12 @@ namespace BazarMVC.Controllers
                 VendasModel vendas = new VendasModel();
                 vendas.Id = item.Id;
                 vendas.ValorTotal = item.ValorTotal;
-                var nomeComprador = bazar.GetComprador(item.IdComprador.ToString());
+                var nomeComprador = bazar.GetComprador(item.IdComprador);
                 if (!nomeComprador.ProccessOk)
                 {
                     return View(listaVendas);
                 }
-                vendas.Comprador = nomeComprador.Comprador.Nome;
+                vendas.Comprador = nomeComprador.Comprador.Nome + " " + nomeComprador.Comprador.Sobrenome;
                 listaVendas.Add(vendas);
             }
             return View(listaVendas);
@@ -60,6 +60,7 @@ namespace BazarMVC.Controllers
                 CompradorModel comprador = new CompradorModel();
                 comprador.Id = item.Id;
                 comprador.Nome = item.Nome;
+                comprador.Sobrenome = item.Sobrenome;
                 model.ListaCompradores.Add(comprador);
             }
 
@@ -106,12 +107,12 @@ namespace BazarMVC.Controllers
             if (model.ProdutoSelecionado == 0)
             {
                 Venda venda = new Venda();
-                if(model.Comprador == null)
+                List<ProdutoVendido> listaProdutos = new List<ProdutoVendido>();
+                if (model.Comprador == null)
                 {
                     return View(model);
                 }
                 venda.IdComprador = int.Parse(model.Comprador);
-                List<ProdutoVendido> listaProdutos = new List<ProdutoVendido>();
                 foreach (var item in model.ListaProdutosEscolhidos)
                 {
                     ProdutoVendido produto = new ProdutoVendido();
@@ -121,6 +122,7 @@ namespace BazarMVC.Controllers
                     listaProdutos.Add(produto);
                 }
 
+                venda.ValorTotal = model.ValorTotal;
                 venda.ListaProdutoVendido = listaProdutos;
                 var cadastroVenda = bazar.AdicionarVenda(venda);
                 if (!cadastroVenda.ProccessOk)
@@ -128,17 +130,16 @@ namespace BazarMVC.Controllers
                     return View(model);
                 }
 
-                cadastroVenda.Venda.ValorTotal = model.ValorTotal;
-                var calcularVenda = bazar.CalcularVenda(cadastroVenda.Venda);
-                if (!calcularVenda.ProccessOk)
-                {
-                    return View(model);
-                }
-
                 foreach (var item in listaProdutos)
                 {
-                    var produto = bazar.GetProduto(item.IdProduto);
+                    ProdutoVendido produtoVendido = new ProdutoVendido();
                     item.Quantidade = 1;
+                    var produto = bazar.GetProduto(item.IdProduto);
+                    if (!produto.ProccessOk)
+                    {
+                        return View(model);
+                    }
+                    
                     var diminuirProduto = bazar.DiminuirQuantidadeProduto(produto.Produto, item.Quantidade);
                 }
 
@@ -147,18 +148,21 @@ namespace BazarMVC.Controllers
             }
             else
             {
+                int quantidadeFront = 1;
                 // Adicionar da Lista de Compras
                 if (model.ListaProdutos.Any(x => x.Id == model.ProdutoSelecionado))
                 {
                     var produto = model.ListaProdutos.Where(a => a.Id == model.ProdutoSelecionado).ToList().First();
-                    model.ListaProdutosEscolhidos.Add(produto);
+                    produto.Quantidade = quantidadeFront;
                     model.ListaProdutos.Remove(produto);
+                    model.ListaProdutosEscolhidos.Add(produto);
                     model.ValorTotal += produto.Preco;
                 }
                 //Removar da Lista de Compras
                 else
                 {
                     var produto = model.ListaProdutosEscolhidos.Where(a => a.Id == model.ProdutoSelecionado).ToList().First();
+                    produto.Quantidade = quantidadeFront;
                     model.ListaProdutos.Add(produto);
                     model.ListaProdutosEscolhidos.Remove(produto);
                     model.ValorTotal -= produto.Preco;

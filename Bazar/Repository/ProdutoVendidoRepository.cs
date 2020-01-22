@@ -63,7 +63,7 @@ namespace Bazar.Repository
                 {
                     result.ProdutoVendido.Id = int.Parse(reader["Id"].ToString());
                     result.ProdutoVendido.PrecoPago = int.Parse(reader["PrecoPago"].ToString());
-                    result.ProdutoVendido.Status = int.Parse(reader["Status"].ToString());
+                    result.ProdutoVendido.Status = reader["Status"].ToString() == "0" ? false : true;
                     result.ProdutoVendido.Quantidade = int.Parse(reader["Quantidade"].ToString());
                     result.ProdutoVendido.IdProduto = int.Parse(reader["IdProduto"].ToString());
                     result.ProdutoVendido.IdVenda = int.Parse(reader["IdVenda"].ToString());
@@ -99,7 +99,7 @@ namespace Bazar.Repository
                     ProdutoVendido produtoVendido = new ProdutoVendido();
                     produtoVendido.Id = int.Parse(reader["Id"].ToString());
                     produtoVendido.PrecoPago = float.Parse(reader["PrecoPago"].ToString());
-                    produtoVendido.Status = int.Parse(reader["Status"].ToString());
+                    produtoVendido.Status = reader["Status"].ToString() == "False" ? false : true;
                     produtoVendido.Quantidade = int.Parse(reader["Quantidade"].ToString());
                     produtoVendido.IdProduto = int.Parse(reader["IdProduto"].ToString());
                     produtoVendido.IdVenda = int.Parse(reader["IdVenda"].ToString());
