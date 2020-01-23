@@ -1,13 +1,13 @@
 ﻿<style>
-    .pb-20{
+    .pb-20 {
         padding-bottom: 20px;
     }
 </style>
 
-@model BazarMVC.Models.ProdutosViewModels.ProdutosCreateViewModel
+@model BazarMVC.Models.ProdutosViewModels.ProdutosEditViewModel
 
 @{
-    ViewBag.Title = "Cadastro de Produtos";
+    ViewBag.Title = "Editar Produto";
 }
 
 <!-- Content Header (Page header) -->
@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Cadastro de Produtos</h1>
+                <h1>Editar Produto - @Model.Nome</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -32,18 +32,15 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        
+
                         for (int i = 0; i < Model.ListaVendedores.Count; i++)
                         {
                             @Html.HiddenFor(m => Model.ListaVendedores[i].Id)
                             @Html.HiddenFor(m => Model.ListaVendedores[i].Nome)
                             @Html.HiddenFor(m => Model.ListaVendedores[i].Sobrenome)
                         }
-
-                        if (!string.IsNullOrEmpty(Model.IdVendedor))
-                        {
-                            @Html.Hidden(Model.IdVendedor)
-                        }
+                        
+                        @Html.Hidden(Model.IdVendedor)
 
                         if (ViewBag.MensagemErro != null)
                         {
@@ -68,7 +65,7 @@
                                         }
                                     </datalist>
                                 </div>
-                                <input type="text" name="Vendedor" id="NomeVendedor" value="@Model.Vendedor" style="display: none;">
+                                <input type="text" name="IdVendedor" id="NomeVendedor" value="@Model.IdVendedor" style="display: none;">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Preço</label>
@@ -88,7 +85,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" id="Cadastrar">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary" id="Cadastrar">Salvar</button>
                         </div>
                     }
                 </div>

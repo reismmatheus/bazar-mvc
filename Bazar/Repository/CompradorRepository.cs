@@ -116,11 +116,12 @@ namespace Bazar.Repository
         {
             CompradorResult result = new CompradorResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "UPDATE Comprador SET Nome = @nome WHERE Id = @id";
+            string sql = "UPDATE Comprador SET Nome = @nome, Sobrenome = @sobrenome WHERE Id = @id";
 
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@sobrenome", comprador.Sobrenome));
                 cmd.Parameters.Add(new SqlParameter("@nome", comprador.Nome));
                 cmd.Parameters.Add(new SqlParameter("@id", comprador.Id));
                 conn.Open();

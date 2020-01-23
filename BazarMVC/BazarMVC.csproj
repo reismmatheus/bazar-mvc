@@ -548,6 +548,8 @@
     <Content Include="Views\Usuarios\Create.cshtml" />
     <Content Include="Views\Comprador\Details.cshtml" />
     <Content Include="Views\Comprador\Edit.cshtml" />
+    <Content Include="Views\Produtos\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,9 +36,8 @@ namespace Bazar.Interface
         {
             return new CompradorRepository(_sqlConn).AdicionarComprador(comprador);
         }
-        public CompradorResult EditarComprador(string id, Comprador comprador)
+        public CompradorResult EditarComprador(Comprador comprador)
         {
-            comprador.Id = int.Parse(id);
             return new CompradorRepository(_sqlConn).AtualizarComprador(comprador);
         }
         #endregion
@@ -157,6 +156,11 @@ namespace Bazar.Interface
 
             result.ProccessOk = true;
             return result;
+        }
+        
+        public ProdutoResult AtualizarProduto(Produto produto)
+        {
+            return new ProdutoRepository(_sqlConn).AtualizarProduto(produto);
         }
         #endregion
 

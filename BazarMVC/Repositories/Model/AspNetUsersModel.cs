@@ -8,6 +8,7 @@ namespace BazarMVC.Repositories.Model
     public class AspNetUsersModel
     {
         public string Id { get; set; }
+        public string IdUser { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string Email { get; set; }

@@ -25,7 +25,7 @@ namespace BazarMVC.Repositories
             {
                 connection.Open();
 
-                var query = @"select *, AspNetRoles.Name AS Tipo from AspNetUsers
+                var query = @"select *, AspNetRoles.Name AS Tipo, AspNetUsers.Id AS IdUser from AspNetUsers
                             inner join AspNetUserRoles
                             on AspNetUsers.Id = AspNetUserRoles.UserId
                             inner join AspNetRoles
@@ -43,6 +43,20 @@ namespace BazarMVC.Repositories
                 var query = @" SELECT * FROM AspNetUsers WHERE id='" + id + "'";
                 
                 return connection.Query<AspNetUsersModel>(query).FirstOrDefault();
+            }
+        }
+
+        public bool AtualizarUsuario(AspNetUsersModel model)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var query = @"UPDATE [AspNetUsers] SET Nome = '" + model.Nome + "', Sobrenome = '" + model.Sobrenome + "', Email = '" + model.Email + "' WHERE Id = '" + model.IdUser + "'";
+
+                var result = connection.Execute(query);
+
+                return result == 1 ? true : false;
             }
         }
     }

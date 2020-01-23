@@ -72,8 +72,13 @@ namespace BazarMVC.Controllers
         }
 
         // GET: Comprador/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id = 0)
         {
+            if(id == 0)
+            {
+                TempData["MensagemErro"] = "Erro ao Carregar Comprador";
+                return RedirectToAction("Index");
+            }
             InterfaceBazar bazar = new InterfaceBazar();
             CompradorEditViewModel model = new CompradorEditViewModel();
             var comprador = bazar.GetComprador(id);
@@ -94,13 +99,24 @@ namespace BazarMVC.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                InterfaceBazar bazar = new InterfaceBazar();
+                Comprador comprador = new Comprador();
+                comprador.Id = model.Id;
+                comprador.Nome = model.Nome;
+                comprador.Sobrenome = model.Sobrenome;
+                var salvarComprador = bazar.EditarComprador(comprador);
+                if (!salvarComprador.ProccessOk)
+                {
+                    TempData["MensagemErro"] = "Erro ao salvar o Comprador";
+                    return View(model);
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                TempData["MensagemErro"] = "Erro Inesperado";
+                return View(model);
             }
         }
 

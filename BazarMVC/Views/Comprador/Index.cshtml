@@ -15,6 +15,14 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Compradores</h1>
+                @if (TempData["MensagemSucesso"] != null)
+                {
+                    <span>@TempData["MensagemSucesso"]</span>
+                }
+                else if (TempData["MensagemErro"] != null)
+                {
+                    <span>@TempData["MensagemErro"]</span>
+                }
             </div>
         </div>
     </div>
@@ -62,9 +70,6 @@
         </div>
     </div>
 </section>
-
-<!-- Sweet Alert -->
-@*<script src="~/Content/plugins/sweetalert/sweetalert2.min.js"></script>*@
 
 <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>

@@ -64,6 +64,7 @@ namespace Bazar.Repository
                     result.Produto.Id = int.Parse(reader["Id"].ToString());
                     result.Produto.Nome = reader["Nome"].ToString();
                     result.Produto.Preco = float.Parse(reader["Preco"].ToString());
+                    result.Produto.Descricao = reader["Descricao"].ToString();
                     result.Produto.Quantidade = int.Parse(reader["Quantidade"].ToString());
                     result.Produto.IdVendedor = int.Parse(reader["IdVendedor"].ToString());
                 }
@@ -123,7 +124,7 @@ namespace Bazar.Repository
         {
             ProdutoResult result = new ProdutoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string sql = "UPDATE Produto SET Nome = @nome, Preco = @preco, Quantidade = @quantidade, IdVendedor = @idVendedor WHERE Id = @id";
+            string sql = "UPDATE Produto SET Nome = @nome, Preco = @preco, Quantidade = @quantidade, IdVendedor = @idVendedor, Descricao = @descricao WHERE Id = @id";
 
             try
             {
@@ -132,6 +133,7 @@ namespace Bazar.Repository
                 cmd.Parameters.Add(new SqlParameter("@nome", produto.Nome));
                 cmd.Parameters.Add(new SqlParameter("@preco", produto.Preco));
                 cmd.Parameters.Add(new SqlParameter("@quantidade", produto.Quantidade));
+                cmd.Parameters.Add(new SqlParameter("@descricao", produto.Descricao));
                 cmd.Parameters.Add(new SqlParameter("@idVendedor", produto.IdVendedor));
                 conn.Open();
                 cmd.ExecuteNonQuery();

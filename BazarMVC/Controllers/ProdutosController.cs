@@ -83,7 +83,7 @@ namespace BazarMVC.Controllers
                 produto.Nome = model.Nome;
                 produto.Preco = float.Parse(model.Preco, CultureInfo.InvariantCulture.NumberFormat);
                 produto.Quantidade = model.Quantidade;
-                produto.IdVendedor = int.Parse(model.Vendedor);
+                produto.IdVendedor = int.Parse(model.IdVendedor);
                 produto.Descricao = model.Descricao;
                 var venda = bazar.AdicionarProduto(produto);
                 if (!venda.ProccessOk)
@@ -100,24 +100,74 @@ namespace BazarMVC.Controllers
         }
 
         // GET: Produtos/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id = 0)
         {
-            return View();
+            if (id == 0)
+            {
+                TempData["MensagemErro"] = "Erro ao Carregar Produto";
+                return RedirectToAction("Index");
+            }
+            InterfaceBazar bazar = new InterfaceBazar();
+            ProdutosEditViewModel model = new ProdutosEditViewModel();
+            var produto = bazar.GetProduto(id);
+            if (!produto.ProccessOk)
+            {
+                TempData["MensagemErro"] = "Erro ao Carregar Produto";
+                return RedirectToAction("Index");
+            }
+            model.Id = produto.Produto.Id;
+            model.Nome = produto.Produto.Nome;
+            model.Descricao = produto.Produto.Descricao;
+            model.Preco = produto.Produto.Preco;
+            model.Quantidade = produto.Produto.Quantidade;
+            model.IdVendedor = produto.Produto.IdVendedor.ToString();
+            var vendedores = bazar.GetVendedores();
+            if (!vendedores.ProccessOk)
+            {
+                return View(model);
+            }
+            foreach (var item in vendedores.ListaVendedor)
+            {
+                VendedorModel vendedor = new VendedorModel();
+                vendedor.Id = item.Id;
+                var dadosVendedor = new AspNetUsersRepository().GetUsuario(item.IdUser);
+                if(vendedor.Id.ToString() == model.IdVendedor)
+                {
+                    model.NomeVendedor = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
+                }
+                vendedor.Nome = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
+                model.ListaVendedores.Add(vendedor);
+            }
+            return View(model);
         }
 
         // POST: Produtos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ProdutosEditViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                InterfaceBazar bazar = new InterfaceBazar();
+                Produto produto = new Produto();
+                produto.Id = model.Id;
+                produto.Nome = model.Nome;
+                produto.IdVendedor = int.Parse(model.IdVendedor);
+                produto.Preco = model.Preco;
+                produto.Descricao = string.IsNullOrEmpty(model.Descricao) ? "Sem descrição" : model.Descricao ;
+                produto.Quantidade = model.Quantidade;
+                var salvarProduto = bazar.AtualizarProduto(produto);
+                if (!salvarProduto.ProccessOk)
+                {
+                    TempData["MensagemErro"] = "Erro ao salvar o Produto";
+                    return View(model);
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                TempData["MensagemErro"] = "Erro Inesperado";
+                return View(model);
             }
         }
 

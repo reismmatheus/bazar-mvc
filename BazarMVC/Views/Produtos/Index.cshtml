@@ -4,11 +4,25 @@
     ViewBag.Title = "Produtos";
 }
 
+<style>
+    .w-10px {
+        width: 10px;
+    }
+</style>
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Produtos</h1>
+                @if (TempData["MensagemSucesso"] != null)
+                {
+                    <span>@TempData["MensagemSucesso"]</span>
+                }
+                else if (TempData["MensagemErro"] != null)
+                {
+                    <span>@TempData["MensagemErro"]</span>
+                }
             </div>
         </div>
     </div>
@@ -20,24 +34,38 @@
                 <table class="table" data-sortable id="data-table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col" class="w-10px"></th>
                             <th scope="col">Nome</th>
                             <th scope="col">Preço</th>
                             <th scope="col">Quantidade Disponível</th>
                             <th scope="col">Vendedor</th>
-                            <th scope="col">Ações</th>
+                            <th scope="col" class="w-10px"></th>
+                            <th scope="col" class="w-10px"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <th scope="row">@item.Id</th>
+                                <td class="w-10px">
+                                    <a href="@Url.Action("Details", "Produtos", new { id = item.Id })">
+                                        <i class="fa fa-eye" data-toggle="tooltip" title="Visualizar"></i>
+                                    </a>
+                                </td>
                                 <td>@item.Nome</td>
                                 <td>@item.Preco.ToString("c2")</td>
                                 <td>@item.Quantidade</td>
                                 <td>@item.Vendedor</td>
-                                <td></td>
+                                <td class="w-10px">
+                                    <a href="@Url.Action("Edit", "Produtos", new { id = item.Id })">
+                                        <i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i>
+                                    </a>
+                                </td>
+                                <td class="w-10px">
+                                    <a href="#" onclick="Excluir(1)">
+                                        <i class="fa fa-times text-danger" data-toggle="tooltip" title="Excluir"></i>
+                                    </a>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -47,7 +75,25 @@
     </div>
 </section>
 
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script>
+    function Excluir(id) {
+        Swal.fire({
+            title: 'Excluir',
+            text: "Você deseja excluir este comprador",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#3085d6',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Excluir'
+        }).then((result) => {
+            window.location.href = "@Url.Action("Index")";
+        })
+    }
+
     $(document).ready(function () {
         $('#data-table').dataTable({
             "language": {
