@@ -12,7 +12,7 @@ using BazarMVC.Models;
 
 namespace BazarMVC.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -149,6 +149,13 @@ namespace BazarMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            model.Perfil = "Admin";
+            model.Senha = "d4go4&Mp";
+            model.Email = "reis.mmatheus@gmail.com";
+            model.Username = "teste132132132132123234";
+            model.Nome = "Nome";
+            model.Sobrenome = "Sobrenome";
+            model.ConfirmarSenha = model.Senha;
             if (ModelState.IsValid)
             {
                 if(model.Perfil != null)
@@ -167,9 +174,9 @@ namespace BazarMVC.Controllers
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirme sua conta", "Por favor confirme sua conta no Bazar, clicando no link <a href=\"" + callbackUrl + "\">.</a>");
 
                         return RedirectToAction("Index", "Home");
                     }

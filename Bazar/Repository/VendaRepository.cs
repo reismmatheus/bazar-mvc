@@ -49,7 +49,7 @@ namespace Bazar.Repository
             result.ProccessOk = true;
             return result;
         }
-        public VendaResult GetVenda(string id)
+        public VendaResult GetVenda(int id)
         {
             VendaResult result = new VendaResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);

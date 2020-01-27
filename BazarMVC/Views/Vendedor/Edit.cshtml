@@ -1,15 +1,26 @@
-﻿@model BazarMVC.Models.VendedorViewModels.VendedorEditViewModel
+﻿@using BazarMVC.Models
+@model BazarMVC.Models.VendedorViewModels.VendedorEditViewModel
 
 @{
     ViewBag.Title = "Editar Vendedor";
 }
+
+<style>
+    .margin-auto {
+        margin: 0 auto;
+    }
+</style>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Cadastro de Vendedor</h1>
+                <h1>Editar Vendedor - @Model.Nome @Model.Sobrenome</h1>
+                @if (TempData["MensagemErro"] != null)
+                {
+                    <span>@TempData["MensagemErro"]</span>
+                }
             </div>
         </div>
     </div>
@@ -20,33 +31,43 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Edit", "Vendedor", FormMethod.Post, new { role = "form" }))
                     {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-                        <input type="text" name="Id" value="@Model.Id" style="display: none;">
-
-                        if (ViewBag.MensagemErro != null)
-                        {
-                            <p class="text-danger margin-y">@ViewBag.MensagemErro</p>
-                        }
                         <div class="card-body">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Nome</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome..." name="Nome" value="@Model.Nome">
+                                        <label for="">Email</label>
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mail" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Nome</label>
+                                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", placeholder = "Nome" })
+                                        @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Sobrenome</label>
+                                        @Html.TextBoxFor(m => m.Sobrenome, new { @class = "form-control", placeholder = "Sobrenome" })
+                                        @Html.ValidationMessageFor(m => m.Sobrenome, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4 offset-xl-4 col-sm-6 offset-sm-3">
+                                    <button type="submit" class="btn btn-primary btn-block">Salvar</button>
                                 </div>
                             </div>
                         </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Editar</button>
-                            </div>
                     }
                 </div>
             </div>

@@ -55,6 +55,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Nome do Produto</label>
                                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome..." name="Nome" value="@Model.Nome">
+                                        @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-6 form-group">
@@ -67,16 +68,19 @@
                                             <option data-value="@item.Id">@item.Nome</option>
                                         }
                                     </datalist>
+                                    @Html.ValidationMessageFor(m => m.IdVendedor, "", new { @class = "text-danger" })
                                 </div>
-                                <input type="text" name="Vendedor" id="NomeVendedor" value="@Model.Vendedor" style="display: none;">
+                                <input type="text" name="Vendedor" id="NomeVendedor" value="@Model.IdVendedor" style="display: none;">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Preço</label>
                                         <input type="number" class="form-control" id="dinheiro" placeholder="Preço..." min="0.01" max="99999.99" step="0.01" name="Preco" value="@Model.Preco">
+                                        @Html.ValidationMessageFor(m => m.Preco, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Quantidade</label>
                                         <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Quantidade..." min="1" step="any" name="Quantidade" value="@Model.Quantidade">
+                                        @Html.ValidationMessageFor(m => m.Quantidade, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6">

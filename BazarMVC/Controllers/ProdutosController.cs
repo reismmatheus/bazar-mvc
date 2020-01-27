@@ -32,7 +32,7 @@ namespace BazarMVC.Controllers
                 produto.Nome = item.Nome;
                 produto.Preco = item.Preco;
                 produto.Quantidade = item.Quantidade;
-                var vendedor = bazar.GetVendedor(item.IdVendedor.ToString());
+                var vendedor = bazar.GetVendedor(item.IdVendedor);
                 if (!vendedor.ProccessOk)
                 {
                     return View(listaProdutos);

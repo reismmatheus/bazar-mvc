@@ -7,12 +7,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BazarMVC.Models;
+using Bazar.Interface;
+using BazarMVC.Repositories;
 
 namespace BazarMVC.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private InterfaceBazar bazar = new InterfaceBazar();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -72,6 +75,18 @@ namespace BazarMVC.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            try
+            {
+                var usuario = new AspNetUsersRepository().GetUsuario(userId);
+                model.Nome = usuario.Nome + ' ' + usuario.Sobrenome;
+                model.Funcao = "Admin";
+            }
+            catch (Exception ex)
+            {
+                return View(model);
+            }
+
             return View(model);
         }
 

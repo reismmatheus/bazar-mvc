@@ -85,7 +85,7 @@ namespace BazarMVC.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} caracteres.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
         public string Senha { get; set; }

@@ -41,7 +41,7 @@ namespace BazarMVC.Controllers
         }
 
         // GET: Vendedor/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             return View();
         }
@@ -56,6 +56,10 @@ namespace BazarMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(RegisterViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             try
             {
                 model.Perfil = "Vendedor";
@@ -86,16 +90,27 @@ namespace BazarMVC.Controllers
         }
 
         // GET: Vendedor/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            VendedorEditViewModel model = new VendedorEditViewModel();
-            var getVendedor = bazar.GetVendedor(id.ToString());
-            if (!getVendedor.ProccessOk)
+            if (string.IsNullOrEmpty(id))
             {
-                return View(model);
+                TempData["MensagemErro"] = "Erro ao Capturar vendedor";
+                return RedirectToAction("Index");
             }
-            model.Id = getVendedor.Vendedor.Id;
-            //model.Nome = getVendedor.Vendedor.Nome;
+            VendedorEditViewModel model = new VendedorEditViewModel();
+            try
+            {
+                var getVendedor = new AspNetUsersRepository().GetUsuario(id);
+                model.Id = getVendedor.IdUser;
+                model.Nome = getVendedor.Nome;
+                model.Sobrenome = getVendedor.Sobrenome;
+                model.Email = getVendedor.Email;
+            }
+            catch (Exception ex)
+            {
+                TempData["MensagemErro"] = "Erro ao Capturar vendedor";
+                return RedirectToAction("Index");
+            }
             return View(model);
         }
 
@@ -103,13 +118,30 @@ namespace BazarMVC.Controllers
         [HttpPost]
         public ActionResult Edit(VendedorEditViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            AspNetUsersModel vendedor = new AspNetUsersModel();
             try
             {
+                vendedor.IdUser = model.Id;
+                vendedor.Nome = model.Nome;
+                vendedor.Sobrenome = model.Sobrenome;
+                vendedor.Email = model.Email;
+                var getVendedor = new AspNetUsersRepository().AtualizarUsuario(vendedor);
+                if (!getVendedor)
+                {
+                    TempData["MensagemErro"] = "Erro ao atualizar vendedor";
+                    return View(model);
+                }
+                TempData["MensagemSucesso"] = "Vendedor atualizado com sucesso";
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                TempData["MensagemErro"] = "Erro ao capturar vendedor";
+                return View(model);
             }
         }
 

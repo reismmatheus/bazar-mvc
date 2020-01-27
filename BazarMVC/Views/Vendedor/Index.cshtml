@@ -5,6 +5,9 @@
 }
 
 <style>
+    .w-10px {
+        width: 10px;
+    }
 </style>
 
 <!-- Content Header (Page header) -->
@@ -17,7 +20,11 @@
                 {
                     <span>@TempData["MensagemSucesso"]</span>
                 }
-            </div>>
+                else if (TempData["MensagemErro"] != null)
+                {
+                    <span>@TempData["MensagemErro"]</span>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -28,28 +35,35 @@
                 <table class="table" data-sortable id="data-table">
                     <thead>
                         <tr>
+                            <th scope="col" class="w-10px"></th>
                             <th scope="col">Nome</th>
                             <th scope="col">Sobrenome</th>
                             <th scope="col">E-mail</th>
-                            <th scope="col">Editar</th>
-                            <th scope="col">Excluir</th>
+                            <th scope="col" class="w-10px"></th>
+                            <th scope="col" class="w-10px"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td class="w-10px">
+                                    <a href="@Url.Action("Details", "Vendedor", new { id = item.IdUser })">
+                                        <i class="fa fa-eye" data-toggle="tooltip" title="Visualizar"></i>
+                                    </a>
+                                </td>
                                 <td>@item.Nome</td>
                                 <td>@item.Sobrenome</td>
                                 <td>@item.Email</td>
-                                @using (Html.BeginForm("Edit", "Vendedor", FormMethod.Get))
-                                {
-                                    <td>
-                                        <button class="btn btn-primary" name="id" value="@item.Id"><i class="fa fa-edit"></i></button>
-                                    </td>
-                                }
-                                <td>
-                                    <button class="btn btn-primary"><i class="fa fa-times"></i></button>
+                                <td class="w-10px">
+                                    <a href="@Url.Action("Edit", "Vendedor", new { id = item.IdUser })">
+                                        <i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i>
+                                    </a>
+                                </td>
+                                <td class="w-10px">
+                                    <a href="#" onclick="Excluir(1)">
+                                        <i class="fa fa-times text-danger" data-toggle="tooltip" title="Excluir"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -60,7 +74,26 @@
     </div>
 </section>
 
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script>
+
+    function Excluir(id) {
+        Swal.fire({
+            title: 'Excluir',
+            text: "Você deseja excluir este comprador",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#3085d6',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Excluir'
+        }).then((result) => {
+            window.location.href = "@Url.Action("Index")";
+        })
+    }
+
     $(document).ready(function () {
         $('#data-table').dataTable({
             "language": {

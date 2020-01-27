@@ -47,7 +47,7 @@ namespace Bazar.Interface
         {
             return new VendedorRepository(_sqlConn).ListarVendedores();
         }
-        public VendedorResult GetVendedor(string id)
+        public VendedorResult GetVendedor(int id)
         {
             return new VendedorRepository(_sqlConn).GetVendedor(id);
         }
@@ -81,9 +81,29 @@ namespace Bazar.Interface
             result.ProccessOk = true;
             return result;
         }
-        public VendaResult GetVenda(string id)
+        public VendaResult GetVenda(int id)
         {
-            return new VendaRepository(_sqlConn).GetVenda(id);
+            VendaResult result = new VendaResult();
+            var venda = new VendaRepository(_sqlConn).GetVenda(id);
+            if (!venda.ProccessOk)
+            {
+                result.ProccessOk = venda.ProccessOk;
+                result.MsgError = venda.MsgError;
+                result.MsgCatch = venda.MsgCatch;
+                return result;
+            }
+            result.Venda = venda.Venda;
+            var produtosVendidos = new ProdutoVendidoRepository(_sqlConn).ListarProdutosVendidos(id);
+            if (!produtosVendidos.ProccessOk)
+            {
+                result.ProccessOk = produtosVendidos.ProccessOk;
+                result.MsgError = produtosVendidos.MsgError;
+                result.MsgCatch = produtosVendidos.MsgCatch;
+                return result;
+            }
+            result.Venda.ListaProdutoVendido = produtosVendidos.ListaProdutoVendido;
+            result.ProccessOk = true;
+            return result;
         }
         public VendaResult AdicionarVenda(Venda venda)
         {

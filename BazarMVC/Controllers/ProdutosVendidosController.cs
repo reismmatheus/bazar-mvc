@@ -1,4 +1,5 @@
 ﻿using Bazar.Interface;
+using BazarMVC.Repositories;
 using BazarMVC.Repositories.Model;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace BazarMVC.Controllers
                     return View(listaProdutosVendidos);
                 }
                 produto.Produto = nomeProduto.Produto.Nome;
-                var venda = bazar.GetVenda(item.IdVenda.ToString());
+                var venda = bazar.GetVenda(item.IdVenda);
                 if (!venda.ProccessOk)
                 {
                     return View(listaProdutosVendidos);
@@ -44,7 +45,22 @@ namespace BazarMVC.Controllers
                 {
                     return View(listaProdutosVendidos);
                 }
-                produto.Comprador = comprador.Comprador.Nome + " " + comprador.Comprador.Sobrenome;
+                produto.Comprador = comprador.Comprador.Nome + ' ' + comprador.Comprador.Sobrenome;
+
+                var vendedor = bazar.GetVendedor(nomeProduto.Produto.IdVendedor);
+                if (!vendedor.ProccessOk)
+                {
+                    return View(listaProdutosVendidos);
+                }
+                try
+                {
+                    var usuarioVendedor = new AspNetUsersRepository().GetUsuario(vendedor.Vendedor.IdUser);
+                    produto.Vendedor = usuarioVendedor.Nome + ' ' + usuarioVendedor.Sobrenome;
+                }
+                catch (Exception ex)
+                {
+                    return View(listaProdutosVendidos);
+                }
                 listaProdutosVendidos.Add(produto);
             }
             return View(listaProdutosVendidos);

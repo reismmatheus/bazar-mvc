@@ -12,6 +12,7 @@ namespace BazarMVC.Repositories.Model
         public bool Status { get; set; }
         public int Quantidade { get; set; }
         public string Produto { get; set; }
+        public string Vendedor { get; set; }
         public string Comprador { get; set; }
     }
 }

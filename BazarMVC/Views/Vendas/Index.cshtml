@@ -34,7 +34,6 @@
                         <tr>
                             <th scope="col" class="w-10px"></th>
                             <th scope="col">Comprador</th>
-                            <th scope="col">Produtos</th>
                             <th scope="col">Total</th>
                             <th scope="col" class="w-10px"></th>
                             <th scope="col" class="w-10px"></th>
@@ -45,17 +44,14 @@
                         {
                             <tr>
                                 <td class="w-10px">
-                                    <a href="@Url.Action("Details", "Usuarios", new { id = item.Id })">
+                                    <a href="@Url.Action("Details", "Vendas", new { id = item.Id })">
                                         <i class="fa fa-eye" data-toggle="tooltip" title="Visualizar"></i>
                                     </a>
                                 </td>
                                 <td>@item.Comprador</td>
-                                <td>
-                                    <a href="#" onclick="VendaDetalhada('@item.Id')" class="btn btn-primary btn-sm">Produtos Comprados</a>
-                                </td>
                                 <td>@item.ValorTotal.ToString("c2")</td>
                                 <td class="w-10px">
-                                    <a href="@Url.Action("Edit", "Usuarios", new { id = item.Id })">
+                                    <a href="@Url.Action("Edit", "Vendas", new { id = item.Id })">
                                         <i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i>
                                     </a>
                                 </td>
@@ -73,7 +69,7 @@
     </div>
 </section>
 
-<!-- Modal -->
+<!--
 <div class="modal fade" id="appModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -101,6 +97,7 @@
         </div>
     </div>
 </div>
+-->
 
 <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>

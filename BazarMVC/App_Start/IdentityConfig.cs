@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BazarMVC.Models;
+using System.Net.Mail;
+using System.Configuration;
+using System.Net;
 
 namespace BazarMVC
 {
@@ -18,7 +21,13 @@ namespace BazarMVC
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            var client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("bazar.buscape@gmail.com", "@O85LO7e"),
+                EnableSsl = true
+            };
+            client.Send("testes.robo.2020@gmail.com", message.Destination, message.Subject, message.Body);
+
             return Task.FromResult(0);
         }
     }
@@ -53,11 +62,11 @@ namespace BazarMVC
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequiredLength = 4,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

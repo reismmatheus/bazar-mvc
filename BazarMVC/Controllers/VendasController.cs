@@ -1,5 +1,6 @@
 ﻿using Bazar.Class;
 using Bazar.Interface;
+using BazarMVC.Repositories;
 using BazarMVC.Repositories.Model;
 using System;
 using System.Collections.Generic;
@@ -40,9 +41,63 @@ namespace BazarMVC.Controllers
         }
 
         // GET: Vendas/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id = 0)
         {
-            return View();
+            if(id == 0)
+            {
+                TempData["MensagemErro"] = "Venda não existe!";
+                return RedirectToAction("Index");
+            }
+            VendasDetailsViewModel model = new VendasDetailsViewModel();
+            InterfaceBazar bazar = new InterfaceBazar();
+            var getVendas = bazar.GetVenda(id);
+            if (!getVendas.ProccessOk)
+            {
+                TempData["MensagemErro"] = "Erro ao capturar venda!";
+                return RedirectToAction("Index");
+            }
+            model.Id = getVendas.Venda.Id;
+            model.ValorTotal = getVendas.Venda.ValorTotal;
+            var comprador = bazar.GetComprador(getVendas.Venda.IdComprador);
+            if (!comprador.ProccessOk)
+            {
+                TempData["MensagemErro"] = "Erro ao capturar comprador da venda!";
+                return RedirectToAction("Index");
+            }
+            model.NomeComprador = comprador.Comprador.Nome + " " + comprador.Comprador.Sobrenome;
+            foreach (var item in getVendas.Venda.ListaProdutoVendido)
+            {
+                ProdutosVendidosModel produto = new ProdutosVendidosModel();
+                produto.Id = item.Id;
+                produto.PrecoPago = item.PrecoPago;
+                var getProduto = bazar.GetProduto(item.IdProduto);
+                if (!getProduto.ProccessOk)
+                {
+                    TempData["MensagemErro"] = "Erro ao capturar produto da venda!";
+                    return RedirectToAction("Index");
+                }
+                produto.Produto = getProduto.Produto.Nome;
+                produto.Quantidade = item.Quantidade;
+                produto.Status = item.Status;
+                var getVendedor = bazar.GetVendedor(getProduto.Produto.IdVendedor);
+                if (!getVendedor.ProccessOk)
+                {
+                    TempData["MensagemErro"] = "Erro ao capturar vendedor do produto!";
+                    return RedirectToAction("Index");
+                }
+                try
+                {
+                    var getUser = new AspNetUsersRepository().GetUsuario(getVendedor.Vendedor.IdUser);
+                    produto.Vendedor = getUser.Nome + " " + getUser.Sobrenome;
+                }
+                catch (Exception ex)
+                {
+                    TempData["MensagemErro"] = "Erro ao capturar nome do vendedor do produto!";
+                    return RedirectToAction("Index");
+                }
+                model.ListaProdutos.Add(produto);
+            }
+            return View(model);
         }
 
         // GET: Vendas/Create
@@ -80,7 +135,7 @@ namespace BazarMVC.Controllers
                 produto.Nome = item.Nome;
                 produto.Preco = item.Preco;
                 produto.Quantidade = item.Quantidade;
-                var vendedor = bazar.GetVendedor(item.IdVendedor.ToString());
+                var vendedor = bazar.GetVendedor(item.IdVendedor);
                 if (!produtos.ProccessOk)
                 {
                     return View(model);
@@ -98,10 +153,6 @@ namespace BazarMVC.Controllers
         public ActionResult Create(VendasCreateViewModel model)
         {
             InterfaceBazar bazar = new InterfaceBazar();
-
-            //var compradorEscolhido = model.ListaCompradores.Where(a => a.Id.ToString() == model.Comprador);
-            //if (compradorEscolhido.FirstOrDefault() != null)
-            //    model.Comprador = compradorEscolhido.FirstOrDefault().Nome;
 
             //Botão Cadastrar
             if (model.ProdutoSelecionado == 0)

@@ -81,11 +81,17 @@ namespace Bazar.Repository
             }
             return result;
         }
-        public ListaProdutoVendidoResult ListarProdutosVendidos(int id = 0)
+        
+        /// <summary>
+        /// Pega todos produtos vendidos, se houver idVenda, pega todos da venda.
+        /// </summary>
+        /// <param name="idVenda">IdVenda (Opcional)</param>
+        /// <returns>ListaProdutoVendidoResult</returns>
+        public ListaProdutoVendidoResult ListarProdutosVendidos(int idVenda = 0)
         {
             ListaProdutoVendidoResult result = new ListaProdutoVendidoResult();
             SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
-            string idSql = id != 0 ? " WHERE IdVenda=" + id : "";
+            string idSql = idVenda != 0 ? " WHERE IdVenda=" + idVenda : "";
             string sql = @"SELECT * FROM ProdutoVendido" + idSql;
 
             try

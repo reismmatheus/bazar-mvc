@@ -16,3 +16,4 @@ C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Dapper.Contrib.dll
 C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Dapper.dll
 C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Dapper.xml
 C:\www\dotnet\Bazar-MVC\Bazar\bin\Debug\Dapper.Contrib.xml
+C:\www\dotnet\Bazar-MVC\Bazar\obj\Debug\Bazar.csprojResolveAssemblyReference.cache

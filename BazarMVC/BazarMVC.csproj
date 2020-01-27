@@ -550,6 +550,7 @@
     <Content Include="Views\Comprador\Edit.cshtml" />
     <Content Include="Views\Produtos\Edit.cshtml" />
     <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Vendas\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

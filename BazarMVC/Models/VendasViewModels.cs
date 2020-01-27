@@ -26,5 +26,18 @@ namespace BazarMVC.Models
                 ListaCompradores = new List<CompradorModel>();
             }
         }
+
+        public class VendasDetailsViewModel
+        {
+            public int Id { get; set; }
+            public float ValorTotal { get; set; }
+            public string NomeComprador { get; set; }
+            public string IdComprador { get; set; }
+            public List<ProdutosVendidosModel> ListaProdutos { get; set; }
+            public VendasDetailsViewModel()
+            {
+                ListaProdutos = new List<ProdutosVendidosModel>();
+            }
+        }
     }
 }

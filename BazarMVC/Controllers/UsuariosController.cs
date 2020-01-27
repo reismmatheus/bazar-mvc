@@ -54,6 +54,10 @@ namespace BazarMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(RegisterViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             try
             {
                 var user = new ApplicationUser { UserName = model.Username, Email = model.Email, Nome = model.Nome, Sobrenome = model.Sobrenome, DataCadastro = DateTime.Now };
@@ -64,7 +68,7 @@ namespace BazarMVC.Controllers
                 }
                 UserManager.AddToRole(user.Id, model.Perfil);
 
-                if(model.Perfil == "Vendedor")
+                if (model.Perfil == "Vendedor")
                 {
                     UserManager.AddToRole(user.Id, model.Perfil);
 
@@ -116,6 +120,10 @@ namespace BazarMVC.Controllers
         [HttpPost]
         public ActionResult Edit(UsuariosEditViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             try
             {
                 AspNetUsersModel user = new AspNetUsersModel();
