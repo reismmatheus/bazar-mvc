@@ -60,17 +60,24 @@
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label for="exampleInputPassword1">Vendedor</label>
-                                    <input list="vendedores" class="form-control" placeholder="Vendedor..." value="@Model.NomeVendedor" name="NomeVendedor"
-                                           oninput="console.log(this.value);">
-                                    <datalist id="vendedores">
-                                        @foreach (var item in Model.ListaVendedores)
-                                        {
-                                            <option data-value="@item.Id">@item.Nome</option>
-                                        }
-                                    </datalist>
-                                    @Html.ValidationMessageFor(m => m.IdVendedor, "", new { @class = "text-danger" })
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <input list="vendedores" class="form-control" placeholder="Vendedor..." value="@Model.NomeVendedor" name="NomeVendedor"
+                                               oninput="console.log(this.value);">
+                                        <datalist id="vendedores">
+                                            @foreach (var item in Model.ListaVendedores)
+                                            {
+                                                <option data-value="@item.Id">@item.Nome</option>
+                                            }
+                                        </datalist>
+                                        @Html.ValidationMessageFor(m => m.IdVendedor, "", new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="form-control" name="NomeVendedor" value="@Model.NomeVendedor" readonly>
+                                    }
                                 </div>
-                                <input type="text" name="Vendedor" id="NomeVendedor" value="@Model.IdVendedor" style="display: none;">
+                                <input type="text" name="IdVendedor" id="NomeVendedor" value="@Model.IdVendedor" style="display: none;">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Preço</label>
@@ -97,9 +104,7 @@
                     }
                 </div>
             </div>
-            <!--/.col -->
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
 </section>
 
 <script>

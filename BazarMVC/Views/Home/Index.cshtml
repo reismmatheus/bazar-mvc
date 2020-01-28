@@ -23,97 +23,142 @@
 <section class="content">
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>@Model.Vendas</h3>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="row">
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>@Model.Vendas</h3>
 
-                        <p>Vendas</p>
+                            <p>Vendas</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Vendas")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-chart-line"></i>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@Model.Produtos</h3>
+
+                            <p>Produtos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Produtos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                    <a href="@Url.Action("Index", "Vendas")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>@Model.ProdutosVendidos</h3>
+
+                            <p>Produtos Vendidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "ProdutosVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>@Model.Compradores</h3>
+
+                            <p>Compradores</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Comprador")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@Model.Vendedores</h3>
+
+                            <p>Vendedores</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Vendedor")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>@Model.ProdutosPagos<sup style="font-size: 20px">%</sup></h3>
+
+                            <p>Produtos Pagos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "ProdutosVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>@Model.Produtos</h3>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-lg-4 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>@Model.Produtos</h3>
 
-                        <p>Produtos</p>
+                            <p>Produtos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "Produtos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="col-lg-4 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@Model.ProdutosVendidos</h3>
+
+                            <p>Produtos Vendidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "ProdutosVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                    <a href="@Url.Action("Index", "Produtos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+                <div class="col-lg-4 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>@Model.ProdutosPagos<sup style="font-size: 20px">%</sup></h3>
+
+                            <p>Produtos Pagos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "ProdutosVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>@Model.ProdutosVendidos</h3>
-
-                        <p>Produtos Vendidos</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cart-arrow-down"></i>
-                    </div>
-                    <a href="@Url.Action("Index", "ProdutosVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>@Model.Compradores</h3>
-
-                        <p>Compradores</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <a href="@Url.Action("Index", "Comprador")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>@Model.Vendedores</h3>
-
-                        <p>Vendedores</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <a href="@Url.Action("Index", "Vendedor")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-4 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>@Model.ProdutosPagos<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Produtos Pagos</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <a href="@Url.Action("Index", "ProdutosVendidos")" class="small-box-footer">Mais Informações <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
+        }
     </div>
-    <!-- /.container-fluid -->
 </section>
-<!-- /.content -->

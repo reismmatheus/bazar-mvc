@@ -23,6 +23,18 @@ namespace BazarMVC.Models
             }
          }
 
+        public class ProdutosDetailsViewModel
+        {
+            public int Id { get; set; }
+            public string Nome { get; set; }
+            public float Preco { get; set; }
+            public int Quantidade { get; set; }
+            public string Descricao { get; set; }
+            public string IdVendedor { get; set; }
+            public string NomeVendedor { get; set; }
+        }
+
+
         public class ProdutosEditViewModel
         {
             public int Id { get; set; }

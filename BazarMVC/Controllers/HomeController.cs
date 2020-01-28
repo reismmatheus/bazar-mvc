@@ -1,4 +1,6 @@
 ﻿using Bazar.Interface;
+using Bazar.Result;
+using BazarMVC.Repositories;
 using BazarMVC.Repositories.Model;
 using System;
 using System.Collections.Generic;
@@ -15,11 +17,26 @@ namespace BazarMVC.Controllers
         {
             HomeModel model = new HomeModel();
             InterfaceBazar bazar = new InterfaceBazar();
-            var estatisticas = bazar.GetEstatisticas();
-            if (!estatisticas.ProccessOk)
+            EstatisticaResult estatisticas = new EstatisticaResult();
+            if (User.IsInRole("Admin"))
             {
-                ViewBag.MensagemErro = "Erro ao Capturar Estatísticas";
-                return View(model);
+                estatisticas = bazar.GetEstatisticas();
+                if (!estatisticas.ProccessOk)
+                {
+                    ViewBag.MensagemErro = "Erro ao Capturar Estatísticas";
+                    return View(model);
+                }
+            }
+            else
+            {
+                var user = new AspNetUsersRepository().GetUsuarioByUsername(User.Identity.Name);
+                var getVendedor = bazar.GetVendedorByIdUser(user.Id);
+                estatisticas = bazar.GetEstatisticas(getVendedor.Vendedor.Id);
+                if (!estatisticas.ProccessOk)
+                {
+                    ViewBag.MensagemErro = "Erro ao Capturar Estatísticas";
+                    return View(model);
+                }
             }
             model.Compradores = estatisticas.Compradores;
             model.Produtos = estatisticas.Produtos;

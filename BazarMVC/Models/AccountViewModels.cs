@@ -68,7 +68,6 @@ namespace BazarMVC.Models
         {
             TiposUsuario = new List<AspNetRolesModel>();
         }
-        [Required]
         public string Perfil { get; set; }
         [Required]
         public string Username { get; set; }

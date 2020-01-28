@@ -1,0 +1,65 @@
+﻿<style>
+    .pb-20 {
+        padding-bottom: 20px;
+    }
+</style>
+
+@model BazarMVC.Models.ProdutosViewModels.ProdutosDetailsViewModel
+
+@{
+    ViewBag.Title = "Detalhe do Produto";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Detalhe do Produto | @Model.Nome</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="">Nome do Produto</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nome..." name="Nome" value="@Model.Nome" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="exampleInputPassword1">Vendedor</label>
+                                <input type="text" class="form-control" value="@Model.NomeVendedor" readonly>
+                            </div>
+                            <input type="text" name="Vendedor" id="NomeVendedor" value="@Model.IdVendedor" style="display: none;" readonly>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Preço</label>
+                                    <input type="text" class="form-control" value="@Model.Preco.ToString("c2")" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Quantidade</label>
+                                    <input type="text" class="form-control" value="@Model.Quantidade" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Descrição</label>
+                                    <textarea class="form-control pb-20" id="exampleFormControlTextarea1" rows="4" name="Descricao" readonly>@Model.Descricao</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

@@ -1,5 +1,6 @@
 ﻿using Bazar.Class;
 using Bazar.Interface;
+using Bazar.Result;
 using BazarMVC.Repositories;
 using BazarMVC.Repositories.Model;
 using System;
@@ -20,10 +21,24 @@ namespace BazarMVC.Controllers
         {
             List<ProdutosModel> listaProdutos = new List<ProdutosModel>();
             InterfaceBazar bazar = new InterfaceBazar();
-            var getProdutos = bazar.GetProdutos();
-            if (!getProdutos.ProccessOk)
+            ListaProdutoResult getProdutos = new ListaProdutoResult();
+            if (User.IsInRole("Admin"))
             {
-                return View(listaProdutos);
+                getProdutos = bazar.GetProdutos();
+                if (!getProdutos.ProccessOk)
+                {
+                    return View(listaProdutos);
+                }
+            }
+            else
+            {
+                var user = new AspNetUsersRepository().GetUsuarioByUsername(User.Identity.Name);
+                var getVendedor = bazar.GetVendedorByIdUser(user.Id);
+                getProdutos = bazar.GetProdutos(getVendedor.Vendedor.Id);
+                if (!getProdutos.ProccessOk)
+                {
+                    return View(listaProdutos);
+                }
             }
             foreach (var item in getProdutos.ListaProduto)
             {
@@ -46,9 +61,30 @@ namespace BazarMVC.Controllers
         }
 
         // GET: Produtos/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id = 0)
         {
-            return View();
+            ProdutosDetailsViewModel model = new ProdutosDetailsViewModel();
+            var getProduto = new InterfaceBazar().GetProduto(id);
+            if (!getProduto.ProccessOk)
+            {
+                TempData["MensagemErro"] = "Erro ao capturar produto";
+                return RedirectToAction("Index");
+            }
+            model.Id = getProduto.Produto.Id;
+            model.Nome = getProduto.Produto.Nome;
+            model.Preco = getProduto.Produto.Preco;
+            model.Quantidade = getProduto.Produto.Quantidade;
+            model.Descricao = getProduto.Produto.Descricao;
+            var vendedor = new InterfaceBazar().GetVendedor(getProduto.Produto.IdVendedor);
+            if (!vendedor.ProccessOk)
+            {
+                TempData["MensagemErro"] = "Erro ao capturar vendedor";
+                return RedirectToAction("Index");
+            }
+            var dadosVendedor = new AspNetUsersRepository().GetUsuario(vendedor.Vendedor.IdUser);
+            model.NomeVendedor = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
+            model.IdVendedor = vendedor.Vendedor.Id.ToString();
+            return View(model);
         }
 
         // GET: Produtos/Create
@@ -56,18 +92,29 @@ namespace BazarMVC.Controllers
         {
             InterfaceBazar bazar = new InterfaceBazar();
             ProdutosCreateViewModel model = new ProdutosCreateViewModel();
-            var vendedores = bazar.GetVendedores();
-            if (!vendedores.ProccessOk)
+
+            if (User.IsInRole("Admin"))
             {
-                return View(model);
+                var vendedores = bazar.GetVendedores();
+                if (!vendedores.ProccessOk)
+                {
+                    return View(model);
+                }
+                foreach (var item in vendedores.ListaVendedor)
+                {
+                    VendedorModel vendedor = new VendedorModel();
+                    vendedor.Id = item.Id;
+                    var dadosVendedor = new AspNetUsersRepository().GetUsuario(item.IdUser);
+                    vendedor.Nome = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
+                    model.ListaVendedores.Add(vendedor);
+                }
             }
-            foreach (var item in vendedores.ListaVendedor)
+            else
             {
-                VendedorModel vendedor = new VendedorModel();
-                vendedor.Id = item.Id;
-                var dadosVendedor = new AspNetUsersRepository().GetUsuario(item.IdUser);
-                vendedor.Nome = dadosVendedor.Nome + " " + dadosVendedor.Sobrenome;
-                model.ListaVendedores.Add(vendedor);
+                var user = new AspNetUsersRepository().GetUsuarioByUsername(User.Identity.Name);
+                var getVendedor = bazar.GetVendedorByIdUser(user.Id);
+                model.NomeVendedor = user.Nome + ' ' + user.Sobrenome;
+                model.IdVendedor = getVendedor.Vendedor.Id.ToString();
             }
             return View(model);
         }
@@ -84,9 +131,9 @@ namespace BazarMVC.Controllers
                 produto.Preco = float.Parse(model.Preco, CultureInfo.InvariantCulture.NumberFormat);
                 produto.Quantidade = model.Quantidade;
                 produto.IdVendedor = int.Parse(model.IdVendedor);
-                produto.Descricao = model.Descricao;
-                var venda = bazar.AdicionarProduto(produto);
-                if (!venda.ProccessOk)
+                produto.Descricao = string.IsNullOrEmpty(model.Descricao) ? "Sem descrição" : model.Descricao;
+                var addProduto = bazar.AdicionarProduto(produto);
+                if (!addProduto.ProccessOk)
                 {
                     return View(model);
                 }

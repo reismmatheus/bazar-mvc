@@ -74,6 +74,40 @@ namespace Bazar.Repository
             result.ProccessOk = true;
             return result;
         }
+
+        public VendedorResult GetVendedorByIdUser(string idUser)
+        {
+            VendedorResult result = new VendedorResult();
+            SqlConnection conn = new SqlConnection(_sqlConn.SqlConnection);
+            string sql = "SELECT * FROM Vendedor WHERE IdUser=@idUser";
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@idUser", idUser));
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result.Vendedor.Id = int.Parse(reader["Id"].ToString());
+                    result.Vendedor.IdUser = reader["IdUser"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.ProccessOk = false;
+                result.MsgCatch = ex.ToString();
+                return result;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            result.ProccessOk = true;
+            return result;
+        }
         public ListaVendedorResult ListarVendedores()
         {
             ListaVendedorResult result = new ListaVendedorResult();

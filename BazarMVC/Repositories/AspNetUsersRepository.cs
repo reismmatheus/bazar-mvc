@@ -45,6 +45,18 @@ namespace BazarMVC.Repositories
                 return connection.Query<AspNetUsersModel>(query).FirstOrDefault();
             }
         }
+        
+        public AspNetUsersModel GetUsuarioByUsername(string username)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var query = @" SELECT * FROM AspNetUsers WHERE UserName='" + username + "'";
+
+                return connection.Query<AspNetUsersModel>(query).FirstOrDefault();
+            }
+        }
 
         public bool AtualizarUsuario(AspNetUsersModel model)
         {

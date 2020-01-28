@@ -18,9 +18,18 @@ namespace Bazar.Interface
             _sqlConn.SqlConnection = @"Data Source=INDNOTDEV002\SQLEXPRESS;Initial Catalog=Bazar;Integrated Security=True";
         }
 
-        public EstatisticaResult GetEstatisticas()
+        public EstatisticaResult GetEstatisticas(int id = 0)
         {
-            return new EstatisticaRepository(_sqlConn).GetEstatisticas();
+            EstatisticaResult result = new EstatisticaResult();
+            if(id == 0)
+            {
+                result = new EstatisticaRepository(_sqlConn).GetEstatisticas();
+            }
+            else
+            {
+                result = new EstatisticaRepository(_sqlConn).GetEstatisticasVendedor(id);
+            }
+            return result;
         }
 
         #region Comprador
@@ -50,6 +59,11 @@ namespace Bazar.Interface
         public VendedorResult GetVendedor(int id)
         {
             return new VendedorRepository(_sqlConn).GetVendedor(id);
+        }
+
+        public VendedorResult GetVendedorByIdUser(string idUser)
+        {
+            return new VendedorRepository(_sqlConn).GetVendedorByIdUser(idUser);
         }
         public VendedorResult AdicionarVendedor(Vendedor vendedor)
         {
@@ -140,9 +154,9 @@ namespace Bazar.Interface
         #endregion
 
         #region Produto
-        public ListaProdutoResult GetProdutos()
+        public ListaProdutoResult GetProdutos(int idVendedor = 0)
         {
-            return new ProdutoRepository(_sqlConn).ListarProdutos();
+            return new ProdutoRepository(_sqlConn).ListarProdutos(idVendedor);
         }
         public ProdutoResult GetProduto(int id)
         {
